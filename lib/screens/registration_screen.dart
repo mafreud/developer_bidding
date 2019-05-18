@@ -94,7 +94,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             showSpiner = false;
                           });
                         };
-
                   }),
               ),
             ],
