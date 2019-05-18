@@ -1,5 +1,0 @@
-version: "Apple Swift version 4.2.1 (swiftlang-1000.11.42 clang-1000.11.45.1)"
-options: "0352fb9aad030987dc07effc90fedf35"
-build_time: [1558083008, 521227000]
-inputs:
-  "/Users/numashota/StudioProjects/flash-chat-flutter/ios/Runner/AppDelegate.swift": [1558059491, 0]
