@@ -39,6 +39,12 @@ class _ChatListScreenState extends State<ChatListScreen> {
 }
 
 class ChatListCard extends StatelessWidget {
+//クラスを作ろうとしたけど、諦めた
+//  final String companyName;
+//  final String companyMessage;
+//
+//  ChatListCard({@required this.companyName, @required this.companyMessage})
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -53,7 +59,7 @@ class ChatListCard extends StatelessWidget {
           padding: const EdgeInsets.all(12.0),
           child: Row(
             children: <Widget>[
-              Icon(Icons.email),
+              Icon(Icons.message, color: easyFundMainColor),
               Padding(
                 padding:
                     const EdgeInsets.only(top: 10.0, bottom: 10.0, left: 30.0),
@@ -65,7 +71,7 @@ class ChatListCard extends StatelessWidget {
                       style: kBoldTextStyle,
                       textAlign: TextAlign.left,
                     ),
-                    Text('ここにメッセージのテキストが入る')
+                    Text('メッセージ'),
                   ],
                 ),
               )
