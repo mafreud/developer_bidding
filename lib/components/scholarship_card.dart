@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'colors.dart';
 
 class ScholarshipCard extends StatelessWidget {
-
   ScholarshipCard({this.budged, this.deadline, this.scholarshipName});
 
   String scholarshipName;
@@ -20,7 +20,7 @@ class ScholarshipCard extends StatelessWidget {
         ],
       ),
       elevation: 5.0,
-      color: Colors.lightGreenAccent,
+      color: Colors.white,
     );
   }
 }

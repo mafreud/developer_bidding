@@ -5,36 +5,38 @@ import 'package:easy_fund/components/scholarship_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ChatListScreen extends StatefulWidget {
-
   @override
   _ChatListScreenState createState() => _ChatListScreenState();
 }
 
 class _ChatListScreenState extends State<ChatListScreen> {
-
-
   @override
   Widget build(BuildContext context) {
-    return
-      ListView(
-        children: <Widget>[
-          ChatListCard(),
-          Divider(height: 1.0,color: Colors.grey,),
-          ChatListCard(),
-          Divider(height: 1.0,color: Colors.grey,),
-          ChatListCard(),
-
-        ],
-      );
+    return ListView(
+      children: <Widget>[
+        ChatListCard(),
+        Divider(
+          height: 1.0,
+          color: Colors.grey,
+        ),
+        ChatListCard(),
+        Divider(
+          height: 1.0,
+          color: Colors.grey,
+        ),
+        ChatListCard(),
+      ],
+    );
   }
 }
 
 class ChatListCard extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap(context),
+      onTap: () {
+        onTap(context);
+      },
       child: Card(
         borderOnForeground: true,
         margin: EdgeInsets.all(0.0),
@@ -45,11 +47,16 @@ class ChatListCard extends StatelessWidget {
             children: <Widget>[
               Icon(Icons.email),
               Padding(
-                padding: const EdgeInsets.only(top: 10.0, bottom: 10.0, left: 30.0),
+                padding:
+                    const EdgeInsets.only(top: 10.0, bottom: 10.0, left: 30.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text('企業名', style: kBoldTextStyle, textAlign: TextAlign.left,),
+                    Text(
+                      '企業名',
+                      style: kBoldTextStyle,
+                      textAlign: TextAlign.left,
+                    ),
                     Text('ここにメッセージのテキストが入る')
                   ],
                 ),
@@ -62,6 +69,6 @@ class ChatListCard extends StatelessWidget {
   }
 }
 
-void onTap(context){
+void onTap(context) {
   Navigator.pushNamed(context, ChatScreen.id);
 }
