@@ -4,6 +4,7 @@ import 'package:easy_fund/screens/chat_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:easy_fund/components/chat_data.dart';
+import 'package:easy_fund/components/colors.dart';
 
 FirebaseUser User;
 final _auth = FirebaseAuth.instance;
@@ -21,10 +22,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
       Firestore.instance.collection('userInfo');
   final _auth = FirebaseAuth.instance;
 
-
-
   @override
-
   void getCurrentUser() async {
     try {
       final user = await _auth.currentUser();
@@ -35,6 +33,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
       print(e);
     }
   }
+
   void initState() {
     // TODO: implement initState
     super.initState();
@@ -69,7 +68,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
 //                children: <Widget>[
 //                  for (var cName in )
 //                ],
-                );
+                    );
               }
             });
       }
@@ -82,35 +81,42 @@ class _ChatListScreenState extends State<ChatListScreen> {
 class ChatListCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, ChatScreen.id);
-      },
-      child: Card(
-        borderOnForeground: true,
-        margin: EdgeInsets.all(0.0),
-        elevation: 0.0,
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Row(
-            children: <Widget>[
-              Icon(Icons.email),
-              Padding(
-                padding:
-                    const EdgeInsets.only(top: 10.0, bottom: 10.0, left: 30.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      '企業名',
-                      style: kBoldTextStyle,
-                      textAlign: TextAlign.left,
-                    ),
-                    Text('ここにメッセージのテキストが入る')
-                  ],
-                ),
-              )
-            ],
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: Text('インターン紹介'),
+        backgroundColor: easyFundMainColor,
+      ),
+      body: GestureDetector(
+        onTap: () {
+          Navigator.pushNamed(context, ChatScreen.id);
+        },
+        child: Card(
+          borderOnForeground: true,
+          margin: EdgeInsets.all(0.0),
+          elevation: 0.0,
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Row(
+              children: <Widget>[
+                Icon(Icons.email),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: 10.0, bottom: 10.0, left: 30.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        '企業名',
+                        style: kBoldTextStyle,
+                        textAlign: TextAlign.left,
+                      ),
+                      Text('ここにメッセージのテキストが入る')
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
