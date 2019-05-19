@@ -83,12 +83,22 @@ class _LoginScreenState extends State<LoginScreen> {
                       setState(() {
                         showSpiner = true;
                       });
-                    } catch (e) {
-                      print(e);
-                    }
-                  },
-                  buttonText: 'ログイン',
-                ),
+
+                      try{
+                        final user = _auth.signInWithEmailAndPassword(email: email, password: password);
+
+                        if (user != null){
+                          Navigator.pushNamed(context, ChatScreen.id);
+                        }
+                        setState(() {
+                          showSpiner = true;
+                        });
+                      }
+                      catch (e){
+                        print(e);
+                      }
+                    },
+                    buttonText: 'ログイン',),
               ),
             ],
           ),

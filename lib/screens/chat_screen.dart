@@ -7,6 +7,7 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 final _fireStore = Firestore.instance;
 FirebaseUser loggedInUser;
 
+
 class ChatScreen extends StatefulWidget {
   static String id = 'chat_screen';
 
@@ -22,7 +23,6 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     super.initState();
-
     getCurrentUser();
   }
 
@@ -50,24 +50,9 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: null,
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.close),
-              onPressed: () {
-                //Implement logout functionality
-                _auth.signOut();
-                Navigator.pop(context);
-              }),
-        ],
-        title: Text('⚡️Chat'),
-        backgroundColor: Colors.lightBlueAccent,
-      ),
-      body: SafeArea(
+    @override
+    Widget build(BuildContext context) {
+      return SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -104,13 +89,12 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
+        ),);
+    }
 }
 
 class MessageStream extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -132,8 +116,8 @@ class MessageStream extends StatelessWidget {
           final messageBubble = MessageBubble(
               sender: messageSender,
               text: messageText,
-              isMe: currentUser == messageSender);
 
+              isMe: currentUser ==  messageSender);
           messageBubbles.add(messageBubble);
         }
         return Expanded(
