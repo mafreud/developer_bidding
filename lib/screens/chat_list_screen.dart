@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:easy_fund/components/chat_data.dart';
 
 FirebaseUser User;
+final _auth = FirebaseAuth.instance;
 String userData;
 List<dynamic> chatIdList;
 String companyName;
@@ -16,9 +17,14 @@ class ChatListScreen extends StatefulWidget {
 }
 
 class _ChatListScreenState extends State<ChatListScreen> {
-  final _auth = FirebaseAuth.instance;
   CollectionReference collectionChatReference =
       Firestore.instance.collection('userInfo');
+  final _auth = FirebaseAuth.instance;
+
+
+
+  @override
+
   void getCurrentUser() async {
     try {
       final user = await _auth.currentUser();
@@ -29,43 +35,46 @@ class _ChatListScreenState extends State<ChatListScreen> {
       print(e);
     }
   }
-
-  @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getCurrentUser();
     getChatId();
+    print(_auth.currentUser());
   }
 
   @override
   Widget build(BuildContext context) {
-    for (var id in chatIdList) {
-      return StreamBuilder<QuerySnapshot>(
-          stream: Firestore.instance.collection('chatData').snapshots(),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return Center(
-                child: CircularProgressIndicator(
-                  backgroundColor: Colors.lightBlueAccent,
-                ),
-              );
-            }
-            final chats = snapshot.data.documents;
-            List<MessageBubble> messageBubbles = [];
-            for (var chat in chats) {
-              if (chat.data['studentEmail'] == loggedInUser.email) {
-                ChatData(
-                    companyName: chat.data['companyName'],
-                    studentEmail: chat.data['companyName']);
+    if (chatIdList != null) {
+      for (var id in chatIdList) {
+        return StreamBuilder<QuerySnapshot>(
+            stream: Firestore.instance.collection('chatData').snapshots(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return Center(
+                  child: CircularProgressIndicator(
+                    backgroundColor: Colors.lightBlueAccent,
+                  ),
+                );
               }
-              return Column(
+              final chats = snapshot.data.documents;
+              List<MessageBubble> messageBubbles = [];
+              for (var chat in chats) {
+                if (chat.data['studentEmail'] == User.email) {
+                  ChatData(
+                      companyName: chat.data['companyName'],
+                      studentEmail: chat.data['companyName']);
+                }
+                return Column(
 //                children: <Widget>[
 //                  for (var cName in )
 //                ],
-                  );
-            }
-          });
+                );
+              }
+            });
+      }
+    } else {
+      return ChatListCard();
     }
   }
 }
@@ -116,7 +125,7 @@ void onTap(context) {
 getChatId() {
   Firestore.instance
       .collection('userInfo')
-      .where('userEmail', isEqualTo: loggedInUser.email)
+      .where('userEmail', isEqualTo: User.email)
       .snapshots()
       .listen((data) => chatIdList = data.documents[0]['chatId']);
   print(chatIdList);
