@@ -13,12 +13,12 @@ class EasyFund extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
 
-      initialRoute: WelcomeScreen.id,
+      initialRoute: HomeScreen.id,
       routes: {
         WelcomeScreen.id: (context) => WelcomeScreen(),
         LoginScreen.id: (context) => LoginScreen(),
         RegistrationScreen.id: (context) => RegistrationScreen(),
-        ChatScreen.id: (context) => ChatScreen(),
+//        ChatScreen.id: (context) => ChatScreen(),
         QuestionsScreen.id: (context) => QuestionsScreen(),
         HomeScreen.id: (context) => HomeScreen(),
       },

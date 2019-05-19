@@ -4,12 +4,15 @@ import 'package:easy_fund/screens/chat_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:easy_fund/components/chat_data.dart';
+import 'package:easy_fund/components/colors.dart';
 
 FirebaseUser User;
 final _auth = FirebaseAuth.instance;
 String userData;
 List<dynamic> chatIdList;
 String companyName;
+List<ChatData> chatDataList;
+String screenNum;
 
 class ChatListScreen extends StatefulWidget {
   @override
@@ -47,31 +50,71 @@ class _ChatListScreenState extends State<ChatListScreen> {
   Widget build(BuildContext context) {
     if (chatIdList != null) {
       for (var id in chatIdList) {
-        return StreamBuilder<QuerySnapshot>(
-            stream: Firestore.instance.collection('chatData').snapshots(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return Center(
-                  child: CircularProgressIndicator(
-                    backgroundColor: Colors.lightBlueAccent,
-                  ),
-                );
-              }
-              final chats = snapshot.data.documents;
-              List<MessageBubble> messageBubbles = [];
-              for (var chat in chats) {
-                if (chat.data['studentEmail'] == User.email) {
-                  ChatData(
-                      companyName: chat.data['companyName'],
-                      studentEmail: chat.data['companyName']);
+        return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            title: Text('奨学金リスト'),
+            backgroundColor: easyFundMainColor,
+          ),
+          body: StreamBuilder<QuerySnapshot>(
+              stream: Firestore.instance.collection('chatData').snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(
+                    child: CircularProgressIndicator(
+                      backgroundColor: Colors.lightBlueAccent,
+                    ),
+                  );
                 }
-                return Column(
-//                children: <Widget>[
-//                  for (var cName in )
-//                ],
-                );
-              }
-            });
+                final chats = snapshot.data.documents;
+                List<MessageBubble> messageBubbles = [];
+
+                for (var chat in chats) {
+                  if (chat.data['studentEmail'] == User.email) {
+                    print(chat.data['companyName']);
+                    companyName = chat.data['companyName'];
+
+//                  chatDataList.add(ChatData(
+//                        companyName: chat.data['companyName'],
+//                        studentEmail: chat.data['companyName']));
+
+                  }
+                  return Column(
+                  children: <Widget>[
+                    ChatListCard(
+                      cName: '会社名',
+                      studentId: 'チャット内容',
+                      onCellTapped: (){
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => ChatScreen(screenNum: 'スタック&ソリューションズ'),
+                        ),
+                        );}),
+
+                    ChatListCard(
+                        cName: 'スタック&ソリューションズ',
+                        studentId: 'チャット内容',
+                        onCellTapped: (){
+                          Navigator.push(context, MaterialPageRoute(
+                            builder: (context) => ChatScreen(screenNum:'スタック&ソリューションズ'),
+                          ),
+                          );}),
+                    ChatListCard(
+                        cName: '会社名',
+                        studentId: 'チャット内容',
+                        onCellTapped: (){
+                          Navigator.push(context, MaterialPageRoute(
+                            builder: (context) => ChatScreen(screenNum:'スタック&ソリューションズ'),
+                          ),
+                          );}),
+//                  for (var data in chatDataList){
+//                      ChatListCard(cName: data.companyName, studentId: data.studentEmail),
+//                Text(companyName)
+//                  };
+                  ],
+                  );
+                }
+              }),
+        );
       }
     } else {
       return ChatListCard();
@@ -80,12 +123,16 @@ class _ChatListScreenState extends State<ChatListScreen> {
 }
 
 class ChatListCard extends StatelessWidget {
+
+  ChatListCard({this.cName, this.studentId, this.onCellTapped});
+
+  String cName;
+  String studentId;
+  Function onCellTapped;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, ChatScreen.id);
-      },
+      onTap: onCellTapped,
       child: Card(
         borderOnForeground: true,
         margin: EdgeInsets.all(0.0),
@@ -97,16 +144,16 @@ class ChatListCard extends StatelessWidget {
               Icon(Icons.email),
               Padding(
                 padding:
-                    const EdgeInsets.only(top: 10.0, bottom: 10.0, left: 30.0),
+                const EdgeInsets.only(top: 10.0, bottom: 10.0, left: 30.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      '企業名',
+                      cName,
                       style: kBoldTextStyle,
                       textAlign: TextAlign.left,
                     ),
-                    Text('ここにメッセージのテキストが入る')
+                    Text(studentId)
                   ],
                 ),
               )
@@ -119,7 +166,7 @@ class ChatListCard extends StatelessWidget {
 }
 
 void onTap(context) {
-  Navigator.pushNamed(context, ChatScreen.id);
+//  Navigator.pushNamed(context, ChatScreen.id);
 }
 
 getChatId() {

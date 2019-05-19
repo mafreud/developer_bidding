@@ -3,17 +3,22 @@ import 'package:easy_fund/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+
 final _fireStore = Firestore.instance;
 FirebaseUser loggedInUser;
 
-class ChatScreen extends StatefulWidget {
-  static String id = 'chat_screen';
+//class ChatScreen extends StatefulWidget {
+//
+//  static String id = 'chat_screen';
+//
+//  @override
+//  _ChatScreenState createState() => _ChatScreenState();
+//}
 
-  @override
-  _ChatScreenState createState() => _ChatScreenState();
-}
-
-class _ChatScreenState extends State<ChatScreen> {
+class ChatScreen extends StatelessWidget {
+//ChatScreen -> ChatScreenState
+  String screenNum;
+  ChatScreen({this.screenNum});
 
   final messageTextController = TextEditingController();
   String messageText;
@@ -30,11 +35,11 @@ class _ChatScreenState extends State<ChatScreen> {
       print(e);
     }
   }
-  void initState() {
-    super.initState();
-
-    getCurrentUser();
-  }
+//  void initState() {
+//    super.initState();
+//    print(screenNum);
+//    getCurrentUser();
+//  }
 
 
 //  void getMessages() async{
@@ -64,7 +69,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 Navigator.pop(context);
               }),
         ],
-        title: Text('⚡️Chat'),
+        title: Text(screenNum.toString()),
         backgroundColor: Colors.lightBlueAccent,
       ),
       body: SafeArea(
@@ -112,6 +117,7 @@ class _ChatScreenState extends State<ChatScreen> {
 }
 
 class MessageStream extends StatelessWidget {
+
 
   @override
   Widget build(BuildContext context) {
