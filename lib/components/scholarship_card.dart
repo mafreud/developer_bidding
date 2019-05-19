@@ -11,12 +11,23 @@ class ScholarshipCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: <Widget>[
-          Text('業務スーパー奨学金'),
-          Text('申し込み期限：09/18/2019'),
-          Text('提供額:400万')
+          SizedBox(
+            width: 10.0,
+          ),
+          Icon(Icons.check_circle, color: easyFundMainColor, size: 20.0),
+          SizedBox(
+            width: 10.0,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text('業務スーパー奨学金'),
+              Text('申し込み期限：09/18/2019'),
+              Text('提供額:400万')
+            ],
+          ),
         ],
       ),
       elevation: 5.0,
