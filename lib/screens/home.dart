@@ -1,35 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:easy_fund/screens/chat_screen.dart';
 import 'login_screen.dart';
 import 'package:easy_fund/screens/chat_list_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:easy_fund/screens/scholarships_screen.dart';
-import 'questions_screen.dart';
 import 'package:easy_fund/components/colors.dart';
 
 FirebaseUser loggedInUser;
 
-
 class HomeScreen extends StatefulWidget {
-
-
   static String id = 'home_screen';
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   final _pageOptions = [ScholarshipsScreen(), ChatListScreen(), LoginScreen()];
   final _auth = FirebaseAuth.instance;
-
 
   void initState() {
     super.initState();
 
     getCurrentUser();
   }
-
 
   void getCurrentUser() async {
     try {
@@ -70,11 +62,11 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: easyFundLightColor,
-      appBar: AppBar(
-        leading: null,
-        title: Text('奨学金リスト'),
-        backgroundColor: easyFundMainColor,
-      ),
+//      appBar: AppBar(
+//        leading: null,
+//        title: Text('奨学金リスト'),
+//        backgroundColor: easyFundMainColor,
+//      ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
