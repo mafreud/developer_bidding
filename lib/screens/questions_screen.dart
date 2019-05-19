@@ -81,14 +81,17 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
               },
               decoration: kTextFieldDecoration.copyWith(hintText: 'Last Name'),
             ),
+
             SizedBox(
               height: 13.0,
+            ),
 
             Text(
               '名',
               style: TextStyle(color: Colors.black),
               textAlign: TextAlign.left,
             ),
+
             TextField(
               onChanged: (value) {
                 //Do something with the user input.
@@ -98,11 +101,13 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
               },
               decoration: kTextFieldDecoration.copyWith(hintText: 'First Name'),
             ),
+
             Text(
               'GPA: $gpa',
               style: TextStyle(color: Colors.black),
               textAlign: TextAlign.left,
             ),
+
             SliderTheme(
                 data: SliderTheme.of(context).copyWith(
                     inactiveTrackColor: Colors.grey,
@@ -137,10 +142,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                     child: Text(value),
                   );
                 }).toList(),
-                onChanged: (String newValueSelected) {
-                  setState(() {
-                    print(newValueSelected);
-                ),
+            ),
             Text("卒業年度"),
             DropdownButton(
                 value:icuId,
