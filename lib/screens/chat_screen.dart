@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:easy_fund/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 final _fireStore = Firestore.instance;
 FirebaseUser loggedInUser;
-
 
 class ChatScreen extends StatefulWidget {
   static String id = 'chat_screen';
@@ -16,15 +14,12 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+
   final messageTextController = TextEditingController();
   String messageText;
   final _auth = FirebaseAuth.instance;
 
   @override
-  void initState() {
-    super.initState();
-    getCurrentUser();
-  }
 
   void getCurrentUser() async {
     try {
@@ -36,6 +31,12 @@ class _ChatScreenState extends State<ChatScreen> {
       print(e);
     }
   }
+  void initState() {
+    super.initState();
+
+    getCurrentUser();
+  }
+
 
 //  void getMessages() async{
 //    final messages = await  _fireStore.collection('message').getDocuments();
@@ -50,9 +51,24 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-    @override
-    Widget build(BuildContext context) {
-      return SafeArea(
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        leading: null,
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(Icons.close),
+              onPressed: () {
+                //Implement logout functionality
+                _auth.signOut();
+                Navigator.pop(context);
+              }),
+        ],
+        title: Text('⚡️Chat'),
+        backgroundColor: Colors.lightBlueAccent,
+      ),
+      body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -81,16 +97,19 @@ class _ChatScreenState extends State<ChatScreen> {
                           {'text': messageText, 'sender': loggedInUser.email});
                     },
                     child: Text(
-                      '送信',
+                      'Send',
                       style: kSendButtonTextStyle,
                     ),
+
                   ),
                 ],
               ),
             ),
           ],
-        ),);
-    }
+        ),
+      ),
+    );
+  }
 }
 
 class MessageStream extends StatelessWidget {
@@ -116,8 +135,8 @@ class MessageStream extends StatelessWidget {
           final messageBubble = MessageBubble(
               sender: messageSender,
               text: messageText,
-
               isMe: currentUser ==  messageSender);
+
           messageBubbles.add(messageBubble);
         }
         return Expanded(
@@ -131,7 +150,9 @@ class MessageStream extends StatelessWidget {
   }
 }
 
+
 class MessageBubble extends StatelessWidget {
+
   MessageBubble({this.sender, this.text, this.isMe, this.bubbleColor});
 
   String sender;
@@ -144,28 +165,22 @@ class MessageBubble extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.all(10.0),
       child: Column(
-        crossAxisAlignment:
-            isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+        crossAxisAlignment: isMe? CrossAxisAlignment.end: CrossAxisAlignment.start,
         children: <Widget>[
           Text(sender),
           Material(
-            borderRadius: isMe
-                ? BorderRadius.only(
-                    topLeft: Radius.circular(30.0),
-                    bottomLeft: Radius.circular(30.0),
-                    bottomRight: Radius.circular(30.0))
-                : BorderRadius.only(
-                    topRight: Radius.circular(30.0),
-                    bottomLeft: Radius.circular(30.0),
-                    bottomRight: Radius.circular(30.0)),
+            borderRadius: isMe? BorderRadius.only(topLeft: Radius.circular(30.0), bottomLeft: Radius.circular(30.0), bottomRight: Radius.circular(30.0)):
+            BorderRadius.only(topRight: Radius.circular(30.0), bottomLeft: Radius.circular(30.0), bottomRight: Radius.circular(30.0)),
             elevation: 5.0,
-            color: isMe ? Colors.lightBlueAccent : Colors.lightGreenAccent,
+            color: isMe ? Colors.lightBlueAccent:Colors.lightGreenAccent ,
             child: Padding(
               padding: EdgeInsets.all(10.0),
               child: Text(
                 '$text',
-                style: TextStyle(color: Colors.white, fontSize: 15.0),
-              ),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 15.0
+                ),),
             ),
           ),
         ],

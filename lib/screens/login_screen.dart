@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:easy_fund/constants.dart';
-import 'chat_screen.dart';
+import 'package:easy_fund/screens/home.dart';
 import 'package:easy_fund/components/rounded_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -79,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         final user = _auth.signInWithEmailAndPassword(email: email, password: password);
 
                         if (user != null){
-                          Navigator.pushNamed(context, ChatScreen.id);
+                          Navigator.pushNamed(context, HomeScreen.id);
                         }
                         setState(() {
                           showSpiner = true;
