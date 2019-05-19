@@ -194,6 +194,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                   _neverSatisfied(context);
                   try {
                     _fireStore.collection('userInfo').add({
+                      'id': loggedInUser.email,
                       'gender': gender.toString(),
                       'userEmail': loggedInUser.email,
                       'icuId': icuId,
