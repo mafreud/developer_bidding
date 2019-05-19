@@ -13,20 +13,36 @@ class ScholarshipCard extends StatelessWidget {
     return Card(
       child: Row(
         children: <Widget>[
-          SizedBox(
-            width: 10.0,
+          Padding(
+            padding: const EdgeInsets.all(27.0),
+            child:
+                Icon(Icons.check_circle, color: easyFundMainColor, size: 20.0),
           ),
-          Icon(Icons.check_circle, color: easyFundMainColor, size: 20.0),
-          SizedBox(
-            width: 10.0,
+          Padding(
+            padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  '業務スーパー奨学金',
+                  style: TextStyle(fontSize: 13.0, fontWeight: FontWeight.bold),
+                ),
+                Text('¥1,200,000'),
+                Text(
+                  '9月18日締め切り',
+                  style: TextStyle(
+                      color: Colors.red,
+                      fontSize: 11.0,
+                      fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text('業務スーパー奨学金'),
-              Text('申し込み期限：09/18/2019'),
-              Text('提供額:400万')
-            ],
+          SizedBox(width: 60.0),
+          Icon(
+            Icons.keyboard_arrow_right,
+            color: easyFundMainColor,
+            size: 30.0,
           ),
         ],
       ),
