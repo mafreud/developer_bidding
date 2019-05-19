@@ -3,6 +3,7 @@ import 'package:easy_fund/constants.dart';
 import 'package:easy_fund/screens/chat_screen.dart';
 import 'package:easy_fund/components/scholarship_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_fund/components/colors.dart';
 
 class ChatListScreen extends StatefulWidget {
   @override
@@ -12,20 +13,27 @@ class ChatListScreen extends StatefulWidget {
 class _ChatListScreenState extends State<ChatListScreen> {
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: <Widget>[
-        ChatListCard(),
-        Divider(
-          height: 1.0,
-          color: Colors.grey,
-        ),
-        ChatListCard(),
-        Divider(
-          height: 1.0,
-          color: Colors.grey,
-        ),
-        ChatListCard(),
-      ],
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: Text('インターン紹介'),
+        backgroundColor: easyFundMainColor,
+      ),
+      body: ListView(
+        children: <Widget>[
+          ChatListCard(),
+          Divider(
+            height: 1.0,
+            color: Colors.grey,
+          ),
+          ChatListCard(),
+          Divider(
+            height: 1.0,
+            color: Colors.grey,
+          ),
+          ChatListCard(),
+        ],
+      ),
     );
   }
 }

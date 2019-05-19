@@ -47,11 +47,11 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: easyFundLightColor,
-      appBar: AppBar(
-        leading: null,
-        title: Text('奨学金リスト'),
-        backgroundColor: easyFundMainColor,
-      ),
+//      appBar: AppBar(
+//        leading: null,
+//        title: Text('奨学金リスト'),
+//        backgroundColor: easyFundMainColor,
+//      ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
