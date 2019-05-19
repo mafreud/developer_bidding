@@ -7,19 +7,18 @@ import 'package:easy_fund/components/chat_data.dart';
 import 'package:easy_fund/components/colors.dart';
 
 FirebaseUser User;
-final _auth = FirebaseAuth.instance;
 String userData;
 List<dynamic> chatIdList;
 String companyName;
 List<ChatData> chatDataList;
 String screenNum;
 
-class ChatListScreen extends StatefulWidget {
-  @override
-  _ChatListScreenState createState() => _ChatListScreenState();
-}
+//class ChatListScreen extends StatefulWidget {
+//  @override
+//  _ChatListScreenState createState() => _ChatListScreenState();
+//}
 
-class _ChatListScreenState extends State<ChatListScreen> {
+class ChatListScreen extends StatelessWidget {
   CollectionReference collectionChatReference =
       Firestore.instance.collection('userInfo');
   final _auth = FirebaseAuth.instance;
@@ -35,14 +34,15 @@ class _ChatListScreenState extends State<ChatListScreen> {
       print(e);
     }
   }
-
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getCurrentUser();
-    getChatId();
-    print(_auth.currentUser());
-  }
+//
+//  void initState() {
+//    // TODO: implement initState
+//    super.initState();
+//    getCurrentUser();
+//    getChatId();
+//    print(_auth.currentUser());
+//    print("init State list");
+//  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,27 +83,21 @@ class _ChatListScreenState extends State<ChatListScreen> {
                       cName: 'c-mind',
                       studentId: 'チャット内容',
                       onCellTapped: (){
-                        Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => ChatScreen(screenNum: 'c-mind'),
-                        ),
-                        );}),
+                        Navigator.pushNamed(context, ChatScreen.id);
+                        }),
 
                     ChatListCard(
-                        cName: 'スタック&ソリューションズ',
+                        cName: 'c-mind',
                         studentId: 'チャット内容',
                         onCellTapped: (){
-                          Navigator.push(context, MaterialPageRoute(
-                            builder: (context) => ChatScreen(screenNum:'スタック&ソリューションズ'),
-                          ),
-                          );}),
+                          Navigator.pushNamed(context, ChatScreen.id);
+                        }),
                     ChatListCard(
-                        cName: 'Tesla Motors',
+                        cName: 'c-mind',
                         studentId: 'チャット内容',
                         onCellTapped: (){
-                          Navigator.push(context, MaterialPageRoute(
-                            builder: (context) => ChatScreen(screenNum:'Tesla Motors'),
-                          ),
-                          );}),
+                          Navigator.pushNamed(context, ChatScreen.id);
+                        }),
 //                  for (var data in chatDataList){
 //                      ChatListCard(cName: data.companyName, studentId: data.studentEmail),
 //                Text(companyName)
@@ -147,12 +141,12 @@ class ChatListCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(
-                      cName,
-                      style: kBoldTextStyle,
-                      textAlign: TextAlign.left,
-                    ),
-                    Text(studentId)
+//                    Text(
+//                      cName,
+//                      style: kBoldTextStyle,
+//                      textAlign: TextAlign.left,
+//                    ),
+                    Text('studentId')
                   ],
                 ),
               )
