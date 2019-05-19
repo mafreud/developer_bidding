@@ -12,7 +12,6 @@ String companyName;
 
 
 class ChatListScreen extends StatefulWidget {
-
   @override
   _ChatListScreenState createState() => _ChatListScreenState();
 }
@@ -63,9 +62,9 @@ class _ChatListScreenState extends State<ChatListScreen> {
               ChatData(companyName: chat.data['companyName'], studentEmail:chat.data['companyName']);
             }
             return Column(
-//              children: <Widget>[
-//                for (var cName in )
-//              ],
+              children: <Widget>[
+                for (var cName in )
+              ],
             );
           }
         });
@@ -74,7 +73,6 @@ class _ChatListScreenState extends State<ChatListScreen> {
 }
 
 class ChatListCard extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -92,11 +90,16 @@ class ChatListCard extends StatelessWidget {
             children: <Widget>[
               Icon(Icons.email),
               Padding(
-                padding: const EdgeInsets.only(top: 10.0, bottom: 10.0, left: 30.0),
+                padding:
+                    const EdgeInsets.only(top: 10.0, bottom: 10.0, left: 30.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text('企業名', style: kBoldTextStyle, textAlign: TextAlign.left,),
+                    Text(
+                      '企業名',
+                      style: kBoldTextStyle,
+                      textAlign: TextAlign.left,
+                    ),
                     Text('ここにメッセージのテキストが入る')
                   ],
                 ),
@@ -109,10 +112,9 @@ class ChatListCard extends StatelessWidget {
   }
 }
 
-void onTap(context){
+void onTap(context) {
   Navigator.pushNamed(context, ChatScreen.id);
 }
-
 
 
 getChatId(){
