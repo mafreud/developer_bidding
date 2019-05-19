@@ -80,11 +80,11 @@ class _ChatListScreenState extends State<ChatListScreen> {
                   return Column(
                   children: <Widget>[
                     ChatListCard(
-                      cName: '会社名',
+                      cName: 'c-mind',
                       studentId: 'チャット内容',
                       onCellTapped: (){
                         Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => ChatScreen(screenNum: 'スタック&ソリューションズ'),
+                          builder: (context) => ChatScreen(screenNum: 'c-mind'),
                         ),
                         );}),
 
@@ -97,11 +97,11 @@ class _ChatListScreenState extends State<ChatListScreen> {
                           ),
                           );}),
                     ChatListCard(
-                        cName: '会社名',
+                        cName: 'Tesla Motors',
                         studentId: 'チャット内容',
                         onCellTapped: (){
                           Navigator.push(context, MaterialPageRoute(
-                            builder: (context) => ChatScreen(screenNum:'スタック&ソリューションズ'),
+                            builder: (context) => ChatScreen(screenNum:'Tesla Motors'),
                           ),
                           );}),
 //                  for (var data in chatDataList){
