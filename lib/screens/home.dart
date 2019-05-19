@@ -5,19 +5,17 @@ import 'package:easy_fund/screens/chat_list_screen.dart';
 import 'package:easy_fund/screens/scholarships_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-
   static String id = 'home_screen';
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   final _pageOptions = [ScholarshipsScreen(), ChatListScreen(), LoginScreen()];
 
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     Text(
       'Index 0: Home',
@@ -42,6 +40,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: null,
+        title: Text('奨学金リスト'),
+        backgroundColor: Colors.lightBlueAccent,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -60,11 +63,6 @@ class _HomeScreenState extends State<HomeScreen> {
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.amber[800],
         onTap: _onItemTapped,
-      ),
-      appBar: AppBar(
-        leading: null,
-        title: Text('奨学金リスト'),
-        backgroundColor: Colors.lightBlueAccent,
       ),
       body: _pageOptions[_selectedIndex],
     );
