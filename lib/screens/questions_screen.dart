@@ -3,10 +3,9 @@ import 'package:easy_fund/constants.dart';
 import 'package:easy_fund/components/rounded_button.dart';
 import 'package:easy_fund/data.dart';
 import 'package:easy_fund/components/reusable_card.dart';
-import 'package:easy_fund/screens/scholarships_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:easy_fund/screens/home.dart';
 
 final _fireStore = Firestore.instance;
 FirebaseUser loggedInUser;
@@ -197,7 +196,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                       _neverSatisfied(context);
                       print(major);
                     } else {
-                      Navigator.pushNamed(context, ScholarshipsScreen.id);
+                      Navigator.pushNamed(context, HomeScreen.id);
                     }
                   } catch (e) {
                     print(e);

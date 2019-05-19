@@ -7,6 +7,7 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 final _fireStore = Firestore.instance;
 FirebaseUser loggedInUser;
 
+
 class ChatScreen extends StatefulWidget {
   static String id = 'chat_screen';
 
@@ -20,11 +21,9 @@ class _ChatScreenState extends State<ChatScreen> {
   String messageText;
   final _auth = FirebaseAuth.instance;
 
-
   @override
   void initState() {
     super.initState();
-
     getCurrentUser();
   }
 
@@ -52,24 +51,9 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: null,
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.close),
-              onPressed: () {
-                //Implement logout functionality
-                _auth.signOut();
-                Navigator.pop(context);
-              }),
-        ],
-        title: Text('⚡️Chat'),
-        backgroundColor: Colors.lightBlueAccent,
-      ),
-      body: SafeArea(
+    @override
+    Widget build(BuildContext context) {
+      return SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -91,26 +75,23 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                   ),
                   FlatButton(
-                      onPressed: () {
-                        messageTextController.clear();
-                    //Implement send functionality.
-                    _fireStore.collection('message').add(
-                        {'text': messageText, 'sender': loggedInUser.email});
-                      },
+                    onPressed: () {
+                      messageTextController.clear();
+                      //Implement send functionality.
+                      _fireStore.collection('message').add(
+                          {'text': messageText, 'sender': loggedInUser.email});
+                    },
                     child: Text(
                       'Send',
                       style: kSendButtonTextStyle,
                     ),
-
                   ),
                 ],
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
+        ),);
+    }
 }
 
 class MessageStream extends StatelessWidget {
@@ -137,7 +118,6 @@ class MessageStream extends StatelessWidget {
               sender: messageSender,
               text: messageText,
               isMe: currentUser ==  messageSender);
-
           messageBubbles.add(messageBubble);
         }
         return Expanded(
@@ -161,12 +141,10 @@ class MessageBubble extends StatelessWidget {
   bool isMe;
   Color bubbleColor;
 
-
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(10.0),
-
       child: Column(
         crossAxisAlignment: isMe? CrossAxisAlignment.end: CrossAxisAlignment.start,
         children: <Widget>[
