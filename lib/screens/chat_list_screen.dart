@@ -34,7 +34,7 @@ class ChatListCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: onTap(context),
       child: Card(
         borderOnForeground: true,
         margin: EdgeInsets.all(0.0),
@@ -62,6 +62,6 @@ class ChatListCard extends StatelessWidget {
   }
 }
 
-void onTap(){
-//  Navigator(onGenerateRoute: ChatScreen.id);
+void onTap(context){
+  Navigator.pushNamed(context, ChatScreen.id);
 }

@@ -11,7 +11,6 @@ class ScholarshipsScreen extends StatefulWidget {
 
 class _ScholarshipsScreenState extends State<ScholarshipsScreen> {
 
-
   @override
   Widget build(BuildContext context) {
     return
