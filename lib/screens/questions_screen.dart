@@ -7,7 +7,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:easy_fund/screens/home.dart';
 
-
 final _fireStore = Firestore.instance;
 FirebaseUser loggedInUser;
 
@@ -20,7 +19,6 @@ class QuestionsScreen extends StatefulWidget {
 }
 
 class _QuestionsScreenState extends State<QuestionsScreen> {
-
   final _auth = FirebaseAuth.instance;
   double gpa = 3.0;
   int icuId;
@@ -51,14 +49,6 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: null,
-        title: Text(
-          '基本情報',
-          style: kBoldTextStyle,
-        ),
-        backgroundColor: Colors.lightBlueAccent,
-      ),
       backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -71,7 +61,6 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
               style: TextStyle(color: Colors.black),
               textAlign: TextAlign.left,
             ),
-
             TextField(
               onChanged: (value) {
                 //Do something with the user input.
@@ -81,17 +70,14 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
               },
               decoration: kTextFieldDecoration.copyWith(hintText: 'Last Name'),
             ),
-
             SizedBox(
               height: 13.0,
             ),
-
             Text(
               '名',
               style: TextStyle(color: Colors.black),
               textAlign: TextAlign.left,
             ),
-
             TextField(
               onChanged: (value) {
                 //Do something with the user input.
@@ -101,13 +87,11 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
               },
               decoration: kTextFieldDecoration.copyWith(hintText: 'First Name'),
             ),
-
             Text(
               'GPA: $gpa',
               style: TextStyle(color: Colors.black),
               textAlign: TextAlign.left,
             ),
-
             SliderTheme(
                 data: SliderTheme.of(context).copyWith(
                     inactiveTrackColor: Colors.grey,
@@ -126,26 +110,25 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                         print(gpa);
                       });
                     })),
-
             Text("専攻"),
             DropdownButton<String>(
-                value: major,
-                onChanged: (String newValueSelected) {
-                  setState(() {
-                    major = newValueSelected;
-                    print(newValueSelected);
-                  });
-                },
-                items: majors.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
+              value: major,
+              onChanged: (String newValueSelected) {
+                setState(() {
+                  major = newValueSelected;
+                  print(newValueSelected);
+                });
+              },
+              items: majors.map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
             ),
             Text("卒業年度"),
             DropdownButton(
-                value:icuId,
+                value: icuId,
                 items: icuIds.map<DropdownMenuItem<int>>((int value) {
                   return DropdownMenuItem<int>(
                     value: value,
@@ -165,7 +148,6 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                   });
                 },
                 colour: gender == Gender.Male ? Colors.red : Colors.grey,
-
                 cardChild: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
@@ -205,7 +187,9 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                     if (gender == null ||
                         icuId == null ||
                         major == null ||
-                        gpa == null || firstName == null || loggedInUser.email == null) {
+                        gpa == null ||
+                        firstName == null ||
+                        loggedInUser.email == null) {
                       _neverSatisfied(context);
                       print(major);
                     } else {
@@ -221,6 +205,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
     );
   }
 }
+
 Future<void> _neverSatisfied(context) async {
   return showDialog<void>(
     context: context,
