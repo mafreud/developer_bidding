@@ -3,6 +3,7 @@ import 'login_screen.dart';
 import 'registration_screen.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:easy_fund/components/rounded_button.dart';
+import 'package:easy_fund/components/colors.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static String id = 'welcome_screen';
@@ -30,8 +31,8 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: Text('EasyFund for ICU'),
+        backgroundColor: easyFundMainColor,
+        title: Text('Welcome'),
       ),
       backgroundColor: Colors.white,
       body: Padding(
@@ -76,18 +77,20 @@ class _WelcomeScreenState extends State<WelcomeScreen>
               height: 48.0,
             ),
             RoundedButton(
-              buttonColor: Colors.lightBlueAccent,
+              buttonColor: easyFundLightColor,
               buttonPressed: () {
                 Navigator.pushNamed(context, LoginScreen.id);
               },
               buttonText: 'ログイン',
+              buttonTextColors: easyFundMainColor,
             ),
             RoundedButton(
-              buttonColor: Colors.blueAccent,
+              buttonColor: easyFundMainColor,
               buttonPressed: () {
                 Navigator.pushNamed(context, RegistrationScreen.id);
               },
               buttonText: '新規登録',
+              buttonTextColors: Colors.white,
             ),
           ],
         ),
