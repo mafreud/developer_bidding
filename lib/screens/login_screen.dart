@@ -62,6 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   password = value;
                 },
                 decoration: kTextFieldDecoration.copyWith(hintText: 'パスワード'),
+                obscureText: true,
               ),
               SizedBox(
                 height: 24.0,
@@ -90,6 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     }
                   },
                   buttonText: 'ログイン',
+                  buttonTextColors: Colors.white,
                 ),
               ),
             ],
