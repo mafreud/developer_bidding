@@ -16,7 +16,6 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-
   final messageTextController = TextEditingController();
   String messageText;
   final _auth = FirebaseAuth.instance;
@@ -82,7 +81,7 @@ class _ChatScreenState extends State<ChatScreen> {
                           {'text': messageText, 'sender': loggedInUser.email});
                     },
                     child: Text(
-                      'Send',
+                      '送信',
                       style: kSendButtonTextStyle,
                     ),
                   ),
@@ -117,6 +116,7 @@ class MessageStream extends StatelessWidget {
           final messageBubble = MessageBubble(
               sender: messageSender,
               text: messageText,
+
               isMe: currentUser ==  messageSender);
           messageBubbles.add(messageBubble);
         }
@@ -131,9 +131,7 @@ class MessageStream extends StatelessWidget {
   }
 }
 
-
 class MessageBubble extends StatelessWidget {
-
   MessageBubble({this.sender, this.text, this.isMe, this.bubbleColor});
 
   String sender;
@@ -146,22 +144,28 @@ class MessageBubble extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.all(10.0),
       child: Column(
-        crossAxisAlignment: isMe? CrossAxisAlignment.end: CrossAxisAlignment.start,
+        crossAxisAlignment:
+            isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: <Widget>[
           Text(sender),
           Material(
-            borderRadius: isMe? BorderRadius.only(topLeft: Radius.circular(30.0), bottomLeft: Radius.circular(30.0), bottomRight: Radius.circular(30.0)):
-            BorderRadius.only(topRight: Radius.circular(30.0), bottomLeft: Radius.circular(30.0), bottomRight: Radius.circular(30.0)),
+            borderRadius: isMe
+                ? BorderRadius.only(
+                    topLeft: Radius.circular(30.0),
+                    bottomLeft: Radius.circular(30.0),
+                    bottomRight: Radius.circular(30.0))
+                : BorderRadius.only(
+                    topRight: Radius.circular(30.0),
+                    bottomLeft: Radius.circular(30.0),
+                    bottomRight: Radius.circular(30.0)),
             elevation: 5.0,
-            color: isMe ? Colors.lightBlueAccent:Colors.lightGreenAccent ,
+            color: isMe ? Colors.lightBlueAccent : Colors.lightGreenAccent,
             child: Padding(
               padding: EdgeInsets.all(10.0),
               child: Text(
-                  '$text',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 15.0
-                  ),),
+                '$text',
+                style: TextStyle(color: Colors.white, fontSize: 15.0),
+              ),
             ),
           ),
         ],

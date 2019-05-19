@@ -6,14 +6,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class LoginScreen extends StatefulWidget {
-
   static String id = 'login_screen';
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
   final _auth = FirebaseAuth.instance;
   bool showSpiner = false;
   String email;
@@ -22,6 +20,10 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.blue,
+        title: Text('EasyFund for ICU'),
+      ),
       backgroundColor: Colors.white,
       body: ModalProgressHUD(
         inAsyncCall: showSpiner,
@@ -48,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   //Do something with the user input.
                   email = value;
                 },
-                decoration: kTextFieldDecoration.copyWith(hintText: 'Enter your email'),
+                decoration: kTextFieldDecoration.copyWith(hintText: 'メールアドレス'),
               ),
               SizedBox(
                 height: 8.0,
@@ -58,19 +60,30 @@ class _LoginScreenState extends State<LoginScreen> {
                   //Do something with the user input.
                   password = value;
                 },
-                decoration: kTextFieldDecoration.copyWith(hintText: 'Enter your password'),
+                decoration: kTextFieldDecoration.copyWith(hintText: 'パスワード'),
               ),
               SizedBox(
                 height: 24.0,
               ),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 16.0),
-                  child: RoundedButton(
-                    buttonColor: Colors.lightBlueAccent,
-                    buttonPressed: (){
+                child: RoundedButton(
+                  buttonColor: Colors.lightBlueAccent,
+                  buttonPressed: () {
+                    setState(() {
+                      showSpiner = true;
+                    });
+                    try {
+                      final user = _auth.signInWithEmailAndPassword(
+                          email: email, password: password);
+
+                      if (user != null) {
+                        Navigator.pushNamed(context, ChatScreen.id);
+                      }
                       setState(() {
                         showSpiner = true;
                       });
+
                       try{
                         final user = _auth.signInWithEmailAndPassword(email: email, password: password);
 
@@ -85,7 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         print(e);
                       }
                     },
-                    buttonText: 'Log in',),
+                    buttonText: 'ログイン',),
               ),
             ],
           ),

@@ -6,14 +6,12 @@ import 'chat_screen.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class RegistrationScreen extends StatefulWidget {
-
   static String id = 'registration_screen';
   @override
   _RegistrationScreenState createState() => _RegistrationScreenState();
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
-
   bool showSpiner = false;
 
   final _auth = FirebaseAuth.instance;
@@ -23,6 +21,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.blue,
+        title: Text('EasyFund for ICU'),
+      ),
       backgroundColor: Colors.white,
       body: ModalProgressHUD(
         inAsyncCall: showSpiner,
@@ -46,55 +48,53 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               ),
               TextField(
                 keyboardType: TextInputType.emailAddress,
-                textAlign: TextAlign.center,
                 onChanged: (value) {
                   //Do something with the user input.
                   email = value;
                 },
-                decoration: kTextFieldDecoration.copyWith(hintText: 'Enter your email'),
+                decoration: kTextFieldDecoration.copyWith(hintText: 'メールアドレス'),
               ),
               SizedBox(
                 height: 8.0,
               ),
               TextField(
                 obscureText: true,
-                textAlign: TextAlign.center,
                 onChanged: (value) {
                   //Do something with the user input.
                   password = value;
                 },
-                decoration: kTextFieldDecoration.copyWith(hintText: 'Enter your password'),
+                decoration: kTextFieldDecoration.copyWith(hintText: 'パスワード'),
               ),
               SizedBox(
                 height: 24.0,
               ),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 16.0),
-                  child: RoundedButton(
-                      buttonText: 'Register',
-                      buttonColor:Colors.blueAccent,
-                      buttonPressed: () async{
-                        setState(() {
-                          showSpiner = true;
-                        });
-                        try {
-                          final newUser = await _auth
-                              .createUserWithEmailAndPassword(
-                              email: email, password: password);
-                          if (newUser != null){
-                            Navigator.pushNamed(context, ChatScreen.id);
-                          }
-                          setState(() {
-                            showSpiner = false;
-                          });
+                child: RoundedButton(
+                    buttonText: '登録',
+                    buttonColor: Colors.blueAccent,
+                    buttonPressed: () async {
+                      setState(() {
+                        showSpiner = true;
+                      });
+                      try {
+                        final newUser =
+                            await _auth.createUserWithEmailAndPassword(
+                                email: email, password: password);
+                        if (newUser != null) {
+                          Navigator.pushNamed(context, ChatScreen.id);
                         }
-                        catch(e){
-                          print(e);
-                          setState((){
-                            showSpiner = false;
-                          });
-                        };
-                  }),
+                        setState(() {
+                          showSpiner = false;
+                        });
+                      } catch (e) {
+                        print(e);
+                        setState(() {
+                          showSpiner = false;
+                        });
+                      }
+                      ;
+                    }),
               ),
             ],
           ),

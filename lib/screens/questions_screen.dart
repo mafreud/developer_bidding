@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:easy_fund/screens/home.dart';
 
+
 final _fireStore = Firestore.instance;
 FirebaseUser loggedInUser;
 
@@ -19,6 +20,7 @@ class QuestionsScreen extends StatefulWidget {
 }
 
 class _QuestionsScreenState extends State<QuestionsScreen> {
+
   final _auth = FirebaseAuth.instance;
   double gpa = 3.0;
   int icuId;
@@ -69,6 +71,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
               style: TextStyle(color: Colors.black),
               textAlign: TextAlign.left,
             ),
+
             TextField(
               onChanged: (value) {
                 //Do something with the user input.
@@ -76,8 +79,11 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                   lastName = value;
                 });
               },
-              decoration: kTextFieldDecoration.copyWith(hintText: ''),
+              decoration: kTextFieldDecoration.copyWith(hintText: 'Last Name'),
             ),
+            SizedBox(
+              height: 13.0,
+
             Text(
               '名',
               style: TextStyle(color: Colors.black),
@@ -90,7 +96,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                   firstName = value;
                 });
               },
-              decoration: kTextFieldDecoration.copyWith(hintText: ''),
+              decoration: kTextFieldDecoration.copyWith(hintText: 'First Name'),
             ),
             Text(
               'GPA: $gpa',
@@ -115,6 +121,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                         print(gpa);
                       });
                     })),
+
             Text("専攻"),
             DropdownButton<String>(
                 value: major,
@@ -130,6 +137,9 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                     child: Text(value),
                   );
                 }).toList(),
+                onChanged: (String newValueSelected) {
+                  setState(() {
+                    print(newValueSelected);
                 ),
             Text("卒業年度"),
             DropdownButton(
@@ -153,6 +163,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                   });
                 },
                 colour: gender == Gender.Male ? Colors.red : Colors.grey,
+
                 cardChild: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
@@ -208,7 +219,6 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
     );
   }
 }
-
 Future<void> _neverSatisfied(context) async {
   return showDialog<void>(
     context: context,
