@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:easy_fund/constants.dart';
 import 'package:easy_fund/screens/chat_screen.dart';
-import 'package:easy_fund/components/scholarship_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:easy_fund/components/colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:easy_fund/components/chat_data.dart';
+
+FirebaseUser User;
+String userData;
+List<dynamic> chatIdList;
+String companyName;
 
 class ChatListScreen extends StatefulWidget {
   @override
@@ -11,45 +16,66 @@ class ChatListScreen extends StatefulWidget {
 }
 
 class _ChatListScreenState extends State<ChatListScreen> {
+  final _auth = FirebaseAuth.instance;
+  CollectionReference collectionChatReference =
+      Firestore.instance.collection('userInfo');
+  void getCurrentUser() async {
+    try {
+      final user = await _auth.currentUser();
+      if (user != null) {
+        User = user;
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getCurrentUser();
+    getChatId();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text('インターン紹介'),
-        backgroundColor: easyFundMainColor,
-      ),
-      body: ListView(
-        children: <Widget>[
-          ChatListCard(),
-          Divider(
-            height: 1.0,
-            color: Colors.grey,
-          ),
-          ChatListCard(),
-          Divider(
-            height: 1.0,
-            color: Colors.grey,
-          ),
-          ChatListCard(),
-        ],
-      ),
-    );
+    for (var id in chatIdList) {
+      return StreamBuilder<QuerySnapshot>(
+          stream: Firestore.instance.collection('chatData').snapshots(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Center(
+                child: CircularProgressIndicator(
+                  backgroundColor: Colors.lightBlueAccent,
+                ),
+              );
+            }
+            final chats = snapshot.data.documents;
+            List<MessageBubble> messageBubbles = [];
+            for (var chat in chats) {
+              if (chat.data['studentEmail'] == loggedInUser.email) {
+                ChatData(
+                    companyName: chat.data['companyName'],
+                    studentEmail: chat.data['companyName']);
+              }
+              return Column(
+//                children: <Widget>[
+//                  for (var cName in )
+//                ],
+                  );
+            }
+          });
+    }
   }
 }
 
 class ChatListCard extends StatelessWidget {
-//クラスを作ろうとしたけど、諦めた
-//  final String companyName;
-//  final String companyMessage;
-//
-//  ChatListCard({@required this.companyName, @required this.companyMessage})
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        onTap(context);
+        Navigator.pushNamed(context, ChatScreen.id);
       },
       child: Card(
         borderOnForeground: true,
@@ -59,7 +85,7 @@ class ChatListCard extends StatelessWidget {
           padding: const EdgeInsets.all(12.0),
           child: Row(
             children: <Widget>[
-              Icon(Icons.message, color: easyFundMainColor),
+              Icon(Icons.email),
               Padding(
                 padding:
                     const EdgeInsets.only(top: 10.0, bottom: 10.0, left: 30.0),
@@ -71,7 +97,7 @@ class ChatListCard extends StatelessWidget {
                       style: kBoldTextStyle,
                       textAlign: TextAlign.left,
                     ),
-                    Text('メッセージ'),
+                    Text('ここにメッセージのテキストが入る')
                   ],
                 ),
               )
@@ -85,4 +111,13 @@ class ChatListCard extends StatelessWidget {
 
 void onTap(context) {
   Navigator.pushNamed(context, ChatScreen.id);
+}
+
+getChatId() {
+  Firestore.instance
+      .collection('userInfo')
+      .where('userEmail', isEqualTo: loggedInUser.email)
+      .snapshots()
+      .listen((data) => chatIdList = data.documents[0]['chatId']);
+  print(chatIdList);
 }
