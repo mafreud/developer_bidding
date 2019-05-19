@@ -62,9 +62,9 @@ class _ChatListScreenState extends State<ChatListScreen> {
               ChatData(companyName: chat.data['companyName'], studentEmail:chat.data['companyName']);
             }
             return Column(
-              children: <Widget>[
-                for (var cName in )
-              ],
+//              children: <Widget>[
+//                for (var cName in )
+//              ],
             );
           }
         });
