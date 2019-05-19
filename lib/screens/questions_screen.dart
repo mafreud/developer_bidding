@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:easy_fund/constants.dart';
-import 'package:easy_fund/components/rounded_button.dart';
 import 'package:easy_fund/data.dart';
 import 'package:easy_fund/components/reusable_card.dart';
 import 'package:easy_fund/components/colors.dart';

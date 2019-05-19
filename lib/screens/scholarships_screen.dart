@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:easy_fund/constants.dart';
 import 'package:easy_fund/components/scholarship_card.dart';
 import 'package:easy_fund/components/colors.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ScholarshipsScreen extends StatefulWidget {
   @override

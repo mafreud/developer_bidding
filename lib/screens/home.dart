@@ -4,6 +4,7 @@ import 'package:easy_fund/screens/chat_list_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:easy_fund/screens/scholarships_screen.dart';
 import 'package:easy_fund/components/colors.dart';
+import 'questions_screen.dart';
 
 FirebaseUser loggedInUser;
 
@@ -14,7 +15,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final _pageOptions = [ScholarshipsScreen(), ChatListScreen(), LoginScreen()];
+  final _pageOptions = [
+    ScholarshipsScreen(),
+    ChatListScreen(),
+    QuestionsScreen(),
+  ];
   final _auth = FirebaseAuth.instance;
 
   void initState() {

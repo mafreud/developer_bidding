@@ -24,10 +24,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
       Firestore.instance.collection('userInfo');
   final _auth = FirebaseAuth.instance;
 
-
-
   @override
-
   void getCurrentUser() async {
     try {
       final user = await _auth.currentUser();
@@ -38,6 +35,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
       print(e);
     }
   }
+
   void initState() {
     // TODO: implement initState
     super.initState();
@@ -115,6 +113,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
                 }
               }),
         );
+
       }
     } else {
       return ChatListCard();
@@ -158,6 +157,7 @@ class ChatListCard extends StatelessWidget {
                 ),
               )
             ],
+
           ),
         ),
       ),
