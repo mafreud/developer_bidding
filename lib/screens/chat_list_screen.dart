@@ -4,7 +4,7 @@ import 'package:easy_fund/screens/chat_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:easy_fund/components/chat_data.dart';
-import 'package:easy_fund/components/colors.dart';
+import 'package:easy_fund/components/constants.dart';
 
 FirebaseUser User;
 String userData;
@@ -52,7 +52,7 @@ class ChatListScreen extends StatelessWidget {
           backgroundColor: Colors.white,
           appBar: AppBar(
             title: Text('奨学金リスト'),
-            backgroundColor: easyFundMainColor,
+            backgroundColor: kEasyFundMainColor,
           ),
           body: StreamBuilder<QuerySnapshot>(
               stream: Firestore.instance.collection('chatData').snapshots(),
@@ -78,36 +78,35 @@ class ChatListScreen extends StatelessWidget {
 
                   }
                   return Column(
-                  children: <Widget>[
-                    ChatListCard(
-                      cName: 'c-mind',
-                      studentId: 'チャット内容',
-                      onCellTapped: (){
-                        Navigator.pushNamed(context, ChatScreen.id);
-                        }),
+                    children: <Widget>[
+                      ChatListCard(
+                          cName: 'c-mind',
+                          studentId: 'チャット内容',
+                          onCellTapped: () {
+                            Navigator.pushNamed(context, ChatScreen.id);
+                          }),
 
-                    ChatListCard(
-                        cName: 'c-mind',
-                        studentId: 'チャット内容',
-                        onCellTapped: (){
-                          Navigator.pushNamed(context, ChatScreen.id);
-                        }),
-                    ChatListCard(
-                        cName: 'c-mind',
-                        studentId: 'チャット内容',
-                        onCellTapped: (){
-                          Navigator.pushNamed(context, ChatScreen.id);
-                        }),
+                      ChatListCard(
+                          cName: 'c-mind',
+                          studentId: 'チャット内容',
+                          onCellTapped: () {
+                            Navigator.pushNamed(context, ChatScreen.id);
+                          }),
+                      ChatListCard(
+                          cName: 'c-mind',
+                          studentId: 'チャット内容',
+                          onCellTapped: () {
+                            Navigator.pushNamed(context, ChatScreen.id);
+                          }),
 //                  for (var data in chatDataList){
 //                      ChatListCard(cName: data.companyName, studentId: data.studentEmail),
 //                Text(companyName)
 //                  };
-                  ],
+                    ],
                   );
                 }
               }),
         );
-
       }
     } else {
       return ChatListCard();
@@ -116,7 +115,6 @@ class ChatListScreen extends StatelessWidget {
 }
 
 class ChatListCard extends StatelessWidget {
-
   ChatListCard({this.cName, this.studentId, this.onCellTapped});
 
   String cName;
@@ -137,7 +135,7 @@ class ChatListCard extends StatelessWidget {
               Icon(Icons.email),
               Padding(
                 padding:
-                const EdgeInsets.only(top: 10.0, bottom: 10.0, left: 30.0),
+                    const EdgeInsets.only(top: 10.0, bottom: 10.0, left: 30.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -151,7 +149,6 @@ class ChatListCard extends StatelessWidget {
                 ),
               )
             ],
-
           ),
         ),
       ),

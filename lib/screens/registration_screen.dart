@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:easy_fund/constants.dart';
 import 'package:easy_fund/components/rounded_button.dart';
-import 'package:easy_fund/components/colors.dart';
+import 'package:easy_fund/components/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:easy_fund/screens/questions_screen.dart';
@@ -23,7 +23,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: easyFundMainColor,
+        backgroundColor: kEasyFundMainColor,
         title: Text('新規登録'),
       ),
       backgroundColor: Colors.white,
@@ -74,7 +74,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 child: RoundedButton(
                     buttonTextColors: Colors.white,
                     buttonText: '登録',
-                    buttonColor: easyFundMainColor,
+                    buttonColor: kEasyFundMainColor,
                     buttonPressed: () async {
                       setState(() {
                         showSpiner = true;

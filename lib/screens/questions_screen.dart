@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:easy_fund/data.dart';
 import 'package:easy_fund/components/reusable_card.dart';
-import 'package:easy_fund/components/colors.dart';
+import 'package:easy_fund/components/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:easy_fund/screens/home.dart';
@@ -51,7 +51,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('設定'),
-        backgroundColor: easyFundMainColor,
+        backgroundColor: kEasyFundMainColor,
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -162,7 +162,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                       });
                     },
                     colour: gender == Gender.Male
-                        ? easyFundMainColor
+                        ? kEasyFundMainColor
                         : Colors.grey[400],
                     cardChild: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -179,7 +179,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                     });
                   },
                   colour: gender == Gender.Female
-                      ? easyFundMainColor
+                      ? kEasyFundMainColor
                       : Colors.grey[400],
                   cardChild: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -197,7 +197,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                 '完了',
                 style: TextStyle(color: Colors.white),
               ),
-              color: easyFundMainColor,
+              color: kEasyFundMainColor,
               elevation: 4.0,
               onPressed: () {
                 // Perform some action

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'colors.dart';
+import 'constants.dart';
 
 class ScholarshipCard extends StatelessWidget {
   ScholarshipCard({this.budged, this.deadline, this.scholarshipName});
@@ -16,7 +16,7 @@ class ScholarshipCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(27.0),
             child:
-                Icon(Icons.check_circle, color: easyFundMainColor, size: 20.0),
+                Icon(Icons.check_circle, color: kEasyFundMainColor, size: 20.0),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
@@ -41,7 +41,7 @@ class ScholarshipCard extends StatelessWidget {
           SizedBox(width: 60.0),
           Icon(
             Icons.keyboard_arrow_right,
-            color: easyFundMainColor,
+            color: kEasyFundMainColor,
             size: 30.0,
           ),
         ],

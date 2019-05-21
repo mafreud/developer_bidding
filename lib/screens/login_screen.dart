@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:easy_fund/constants.dart';
 import 'package:easy_fund/screens/home.dart';
 import 'package:easy_fund/components/rounded_button.dart';
-import 'package:easy_fund/components/colors.dart';
+import 'package:easy_fund/components/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
@@ -22,7 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: easyFundMainColor,
+        backgroundColor: kEasyFundMainColor,
         title: Text('ログイン'),
       ),
       backgroundColor: Colors.white,
@@ -70,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 16.0),
                 child: RoundedButton(
-                  buttonColor: easyFundMainColor,
+                  buttonColor: kEasyFundMainColor,
                   buttonPressed: () {
                     setState(() {
                       showSpiner = true;

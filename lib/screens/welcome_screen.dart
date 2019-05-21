@@ -3,7 +3,7 @@ import 'login_screen.dart';
 import 'registration_screen.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:easy_fund/components/rounded_button.dart';
-import 'package:easy_fund/components/colors.dart';
+import 'package:easy_fund/components/constants.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static String id = 'welcome_screen';
@@ -31,7 +31,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: easyFundMainColor,
+        backgroundColor: kEasyFundMainColor,
         title: Text('Welcome'),
       ),
       backgroundColor: Colors.white,
@@ -77,15 +77,15 @@ class _WelcomeScreenState extends State<WelcomeScreen>
               height: 48.0,
             ),
             RoundedButton(
-              buttonColor: easyFundLightColor,
+              buttonColor: kEasyFundLightColor,
               buttonPressed: () {
                 Navigator.pushNamed(context, LoginScreen.id);
               },
               buttonText: 'ログイン',
-              buttonTextColors: easyFundMainColor,
+              buttonTextColors: kEasyFundMainColor,
             ),
             RoundedButton(
-              buttonColor: easyFundMainColor,
+              buttonColor: kEasyFundMainColor,
               buttonPressed: () {
                 Navigator.pushNamed(context, RegistrationScreen.id);
               },
