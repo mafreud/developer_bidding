@@ -156,7 +156,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                     }),
                 Text("性別"),
                 ReusableCard(
-                    onpress: () {
+                    onPress: () {
                       setState(() {
                         gender = Gender.Male;
                       });
@@ -173,7 +173,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                       ),
                     )),
                 ReusableCard(
-                  onpress: () {
+                  onPress: () {
                     setState(() {
                       gender = Gender.Female;
                     });
