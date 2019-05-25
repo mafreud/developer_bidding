@@ -10,7 +10,7 @@ class UserInfoData{
   String major;
   String gender;
   String grade;
-  List<String> chatIds;
+  List<dynamic> chatIds;
   String email;
   int graduationYear;
 }

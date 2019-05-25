@@ -49,6 +49,7 @@ class ScholarshipDetail extends StatelessWidget {
           for (var scholarship in scholarships) {
             scholarshipBudged = scholarship.data['budged'];
 //            final scholarshipDeadline = scholarship.data['deadline'];
+
           }
           return Container(
             child: Column(

@@ -15,6 +15,8 @@ String chatCompanyName;
 String chatPassId;
 var userData;
 UserInfoData userInfo;
+int scholarshipsCount;
+
 
 class HomeScreen extends StatefulWidget {
   static String id = 'home_screen';
@@ -49,9 +51,15 @@ class _HomeScreenState extends State<HomeScreen> {
         var documents = await Firestore.instance.collection('userInfo')
             .where('userEmail', isEqualTo: loggedInUser.email).getDocuments().then((QuerySnapshot docs){
             userData = docs.documents[0];
+            print(userData['GPA']);
+            print(userData['major']);
+            print(userData['grade']);
+
+
             UserInfoData(gpa: userData['GPA'], name: userData['firstName'], email:userData['userEmail'],
                 major: userData['major'], gender: userData['gender'],graduationYear: userData['icuId'],
                 chatIds: userData['chatId'], grade: userData['grade']);
+
         });
       }
     } catch (e) {
@@ -245,7 +253,6 @@ getChatId() {
       .listen((data) => chatIdList = data.documents[0]['chatId']);
   print(chatIdList);
 }
-
 
 
 class ChatScreen extends StatefulWidget {
@@ -463,8 +470,8 @@ class ScholarshipsScreen extends StatelessWidget {
 
 
             StreamBuilder<QuerySnapshot>(
-              stream: _fireStore.collection('Scholarships').where('gpa', isGreaterThanOrEqualTo: userInfo.gpa).where('graduationYear',arrayContains: userInfo.graduationYear)
-                  .where('majors',arrayContains: userInfo.major).snapshots(),
+              stream: _fireStore.collection('Scholarships').where('majors',arrayContains: userInfo.major).snapshots(),
+
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return Center(
@@ -472,7 +479,7 @@ class ScholarshipsScreen extends StatelessWidget {
                       backgroundColor: Colors.lightBlueAccent,
                     ),);
                 }
-                final scholarships = snapshot.data.documents.reversed;
+                final scholarships = snapshot.data.documents;
                 List<ScholarshipCard> scholarshipsCards = [];
                 for (var scholarship in scholarships ) {
                   final scholarshipName = scholarship.data['name'];
@@ -484,6 +491,7 @@ class ScholarshipsScreen extends StatelessWidget {
                     );
 
                   scholarshipsCards.add(scholarshipCard);
+                  scholarshipsCount = scholarshipsCards.length;
                 }
                 return Expanded(
                   child: ListView(
