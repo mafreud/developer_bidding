@@ -1,9 +1,13 @@
+
 import 'package:flutter/material.dart';
 import 'package:easy_fund/constants.dart';
 import 'package:easy_fund/screens/home.dart';
 import 'package:easy_fund/components/rounded_button.dart';
+import 'package:easy_fund/components/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+
+//TODO:ログイン失敗した時にアラートを出す
 
 class LoginScreen extends StatefulWidget {
   static String id = 'login_screen';
@@ -12,7 +16,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
   final _auth = FirebaseAuth.instance;
   bool showSpiner = false;
   String email;
@@ -22,8 +25,8 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: Text('EasyFund for ICU'),
+        backgroundColor: easyFundMainColor,
+        title: Text('ログイン'),
       ),
       backgroundColor: Colors.white,
       body: ModalProgressHUD(
@@ -62,6 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   password = value;
                 },
                 decoration: kTextFieldDecoration.copyWith(hintText: 'パスワード'),
+                obscureText: true,
               ),
               SizedBox(
                 height: 24.0,
@@ -69,27 +73,29 @@ class _LoginScreenState extends State<LoginScreen> {
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 16.0),
                 child: RoundedButton(
-                  buttonColor: Colors.lightBlueAccent,
+                  buttonColor: easyFundMainColor,
                   buttonPressed: () {
                     setState(() {
                       showSpiner = true;
                     });
 
-                      try{
-                        final user = _auth.signInWithEmailAndPassword(email: email, password: password);
+                    try {
+                      final user = _auth.signInWithEmailAndPassword(
+                          email: email, password: password);
 
-                        if (user != null){
-                          Navigator.pushNamed(context, HomeScreen.id);
-                        }
-                        setState(() {
-                          showSpiner = true;
-                        });
+                      if (user != null) {
+                        Navigator.pushNamed(context, HomeScreen.id);
                       }
-                      catch (e){
-                        print(e);
-                      }
-                    },
-                    buttonText: 'ログイン',),
+                      setState(() {
+                        showSpiner = true;
+                      });
+                    } catch (e) {
+                      print(e);
+                    }
+                  },
+                  buttonText: 'ログイン',
+                  buttonTextColors: Colors.white,
+                ),
               ),
             ],
           ),
