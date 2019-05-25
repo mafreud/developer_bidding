@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:easy_fund/constants.dart';
-import 'package:easy_fund/components/rounded_button.dart';
 import 'package:easy_fund/data.dart';
 import 'package:easy_fund/components/reusable_card.dart';
+import 'package:easy_fund/components/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:easy_fund/screens/home.dart';
-
 
 final _fireStore = Firestore.instance;
 FirebaseUser loggedInUser;
@@ -20,7 +18,6 @@ class QuestionsScreen extends StatefulWidget {
 }
 
 class _QuestionsScreenState extends State<QuestionsScreen> {
-
   final _auth = FirebaseAuth.instance;
   double gpa = 3.0;
   int icuId;
@@ -51,27 +48,16 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: null,
-        title: Text(
-          '基本情報',
-          style: kBoldTextStyle,
-        ),
-        backgroundColor: Colors.lightBlueAccent,
-      ),
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: Text('設定'),
+        backgroundColor: easyFundMainColor,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              '姓',
-              style: TextStyle(color: Colors.black),
-              textAlign: TextAlign.left,
-            ),
-
             TextField(
               onChanged: (value) {
                 //Do something with the user input.
@@ -79,19 +65,17 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                   lastName = value;
                 });
               },
-              decoration: kTextFieldDecoration.copyWith(hintText: 'Last Name'),
+              obscureText: false,
+              //カーソルが緑になる
+              //cursorColor: easyFundMainColor,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Last Name',
+              ),
             ),
-
             SizedBox(
               height: 13.0,
             ),
-
-            Text(
-              '名',
-              style: TextStyle(color: Colors.black),
-              textAlign: TextAlign.left,
-            ),
-
             TextField(
               onChanged: (value) {
                 //Do something with the user input.
@@ -99,98 +83,125 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                   firstName = value;
                 });
               },
-              decoration: kTextFieldDecoration.copyWith(hintText: 'First Name'),
+              obscureText: false,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'First Name',
+              ),
             ),
-
-            Text(
-              'GPA: $gpa',
-              style: TextStyle(color: Colors.black),
-              textAlign: TextAlign.left,
+            SizedBox(
+              height: 13.0,
             ),
-
+            SizedBox(height: 15.0),
             SliderTheme(
                 data: SliderTheme.of(context).copyWith(
                     inactiveTrackColor: Colors.grey,
                     activeTrackColor: Colors.pinkAccent,
                     thumbColor: Color(0xFFEB1555),
                     overlayColor: Color(0x29EB1555),
-                    thumbShape: RoundSliderThumbShape(enabledThumbRadius: 15.0),
-                    overlayShape: RoundSliderOverlayShape(overlayRadius: 30.0)),
+                    thumbShape: RoundSliderThumbShape(enabledThumbRadius: 10.0),
+                    overlayShape: RoundSliderOverlayShape(overlayRadius: 15.0)),
                 child: Slider(
                     value: gpa,
                     min: 2.0,
                     max: 4.0,
+                    divisions: 20,
                     onChanged: (double newValue) {
                       setState(() {
                         gpa = newValue;
                         print(gpa);
                       });
                     })),
-
-            Text("専攻"),
-            DropdownButton<String>(
-                value: major,
-                onChanged: (String newValueSelected) {
-                  setState(() {
-                    major = newValueSelected;
-                    print(newValueSelected);
-                  });
-                },
-                items: majors.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
+            SizedBox(height: 15.0),
+            Text(
+              'GPA: $gpa',
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 17.0,
+                  fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
             ),
-            Text("卒業年度"),
-            DropdownButton(
-                value:icuId,
-                items: icuIds.map<DropdownMenuItem<int>>((int value) {
-                  return DropdownMenuItem<int>(
-                    value: value,
-                    child: Text(value.toString()),
-                  );
-                }).toList(),
-                onChanged: (int newValueSelected) {
-                  setState(() {
-                    icuId = newValueSelected;
-                  });
-                }),
-            Text("性別"),
-            ReusableCard(
-                onpress: () {
-                  setState(() {
-                    gender = Gender.Male;
-                  });
-                },
-                colour: gender == Gender.Male ? Colors.red : Colors.grey,
-
-                cardChild: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "男性",
-                    textAlign: TextAlign.center,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Text("専攻"),
+                DropdownButton<String>(
+                  value: major,
+                  onChanged: (String newValueSelected) {
+                    setState(() {
+                      major = newValueSelected;
+                      print(newValueSelected);
+                    });
+                  },
+                  items: majors.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+                Text("卒業年度"),
+                DropdownButton(
+                    value: icuId,
+                    items: icuIds.map<DropdownMenuItem<int>>((int value) {
+                      return DropdownMenuItem<int>(
+                        value: value,
+                        child: Text(value.toString()),
+                      );
+                    }).toList(),
+                    onChanged: (int newValueSelected) {
+                      setState(() {
+                        icuId = newValueSelected;
+                      });
+                    }),
+                Text("性別"),
+                ReusableCard(
+                    onpress: () {
+                      setState(() {
+                        gender = Gender.Male;
+                      });
+                    },
+                    colour: gender == Gender.Male
+                        ? easyFundMainColor
+                        : Colors.grey[400],
+                    cardChild: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "男性",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    )),
+                ReusableCard(
+                  onpress: () {
+                    setState(() {
+                      gender = Gender.Female;
+                    });
+                  },
+                  colour: gender == Gender.Female
+                      ? easyFundMainColor
+                      : Colors.grey[400],
+                  cardChild: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "女性",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
-                )),
-            ReusableCard(
-                onpress: () {
-                  setState(() {
-                    gender = Gender.Female;
-                  });
-                },
-                colour: gender == Gender.Female ? Colors.red : Colors.grey,
-                cardChild: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "女性",
-                    textAlign: TextAlign.center,
-                  ),
-                )),
-            RoundedButton(
-                buttonText: "奨学金を見つける",
-                buttonColor: Colors.lightBlueAccent,
-                buttonPressed: () {
+                ),
+              ],
+            ),
+            RaisedButton(
+              child: Text(
+                '完了',
+                style: TextStyle(color: Colors.white),
+              ),
+              color: easyFundMainColor,
+              elevation: 4.0,
+              onPressed: () {
+                // Perform some action
+                {
                   _neverSatisfied(context);
                   try {
                     _fireStore.collection('userInfo').add({
@@ -206,7 +217,9 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                     if (gender == null ||
                         icuId == null ||
                         major == null ||
-                        gpa == null || firstName == null || loggedInUser.email == null) {
+                        gpa == null ||
+                        firstName == null ||
+                        loggedInUser.email == null) {
                       _neverSatisfied(context);
                       print(major);
                     } else {
@@ -215,20 +228,23 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                   } catch (e) {
                     print(e);
                   }
-                }),
+                }
+              },
+            ),
           ],
         ),
       ),
     );
   }
 }
+
 Future<void> _neverSatisfied(context) async {
   return showDialog<void>(
     context: context,
     barrierDismissible: false, // user must tap button!
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('Rewind and remember'),
+        title: Text('注意'),
         content: SingleChildScrollView(
           child: ListBody(
             children: <Widget>[
@@ -248,3 +264,5 @@ Future<void> _neverSatisfied(context) async {
     },
   );
 }
+
+

@@ -1,9 +1,15 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:easy_fund/constants.dart';
 import 'package:easy_fund/components/rounded_button.dart';
+import 'package:easy_fund/components/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:easy_fund/screens/questions_screen.dart';
+
+//TODO:登録失敗した時にアラートを出す
+
 
 class RegistrationScreen extends StatefulWidget {
   static String id = 'registration_screen';
@@ -22,8 +28,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: Text('EasyFund for ICU'),
+        backgroundColor: easyFundMainColor,
+        title: Text('新規登録'),
       ),
       backgroundColor: Colors.white,
       body: ModalProgressHUD(
@@ -71,16 +77,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 16.0),
                 child: RoundedButton(
+                    buttonTextColors: Colors.white,
                     buttonText: '登録',
-                    buttonColor: Colors.blueAccent,
+                    buttonColor: easyFundMainColor,
                     buttonPressed: () async {
                       setState(() {
                         showSpiner = true;
                       });
                       try {
                         final newUser =
-                            await _auth.createUserWithEmailAndPassword(
-                                email: email, password: password);
+                        await _auth.createUserWithEmailAndPassword(
+                            email: email, password: password);
                         if (newUser != null) {
                           Navigator.pushNamed(context, QuestionsScreen.id);
                         }
@@ -92,7 +99,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         setState(() {
                           showSpiner = false;
                         });
-                      };
+                      }
+                      ;
                     }),
               ),
             ],
