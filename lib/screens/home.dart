@@ -14,7 +14,7 @@ final _fireStore = Firestore.instance;
 String chatCompanyName;
 String chatPassId;
 var userData;
-double userGpa;
+UserInfoData userInfo;
 
 class HomeScreen extends StatefulWidget {
   static String id = 'home_screen';
@@ -45,23 +45,20 @@ class _HomeScreenState extends State<HomeScreen> {
       if (user != null) {
         loggedInUser = user;
         print(loggedInUser);
-//
-//        var documents = await Firestore.instance.collection('userInfo')
-//            .where('userEmail', isEqualTo: loggedInUser.email).getDocuments().then(onValue);
-//        if (documents != null) {
-//          userData = documents;
-//          print(userData);
-//        }
 
+        var documents = await Firestore.instance.collection('userInfo')
+            .where('userEmail', isEqualTo: loggedInUser.email).getDocuments().then((QuerySnapshot docs){
+            userData = docs.documents[0];
+            UserInfoData(gpa: userData['GPA'], name: userData['firstName'], email:userData['userEmail'],
+                major: userData['major'], gender: userData['gender'],graduationYear: userData['icuId'],
+                chatIds: userData['chatId'], grade: userData['grade']);
+        });
       }
     } catch (e) {
       print(e);
       print("error発生");
     }
   }
-
-//  final StreamController<List<UserUpdateInfo>> _feedbackController =
-//  StreamController<List<UserFeedback>>();
 
 
   void getChats() async {
@@ -134,6 +131,8 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class ChatListScreen extends StatelessWidget {
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -464,7 +463,8 @@ class ScholarshipsScreen extends StatelessWidget {
 
 
             StreamBuilder<QuerySnapshot>(
-              stream: _fireStore.collection('Scholarships').snapshots(),
+              stream: _fireStore.collection('Scholarships').where('gpa', isGreaterThanOrEqualTo: userInfo.gpa).where('graduationYear',arrayContains: userInfo.graduationYear)
+                  .where('majors',arrayContains: userInfo.major).snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return Center(

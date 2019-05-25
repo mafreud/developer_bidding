@@ -13,15 +13,4 @@ class UserInfoData{
   List<String> chatIds;
   String email;
   int graduationYear;
-
-  UserInfoData.fromSnapshotData(DocumentSnapshot snapshot)
-      : name = snapshot['firstName'],
-        gpa = snapshot['GPA'],
-        major = snapshot['major'],
-        gender = snapshot['gender'],
-        grade = snapshot['grade'],
-        graduationYear = snapshot['icuId'],
-        email = snapshot['userEmail'],
-        chatIds = snapshot['chatId']
-  ;
 }
