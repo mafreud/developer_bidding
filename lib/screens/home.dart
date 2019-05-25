@@ -481,7 +481,7 @@ class ScholarshipsScreen extends StatelessWidget {
                   final scholarshipCard = ScholarshipCard(
                     scholarshipName: scholarshipName,
                     budged: scholarshipBudged,
-                    deadline: scholarshipDeadline.toString(),);
+                    );
 
                   scholarshipsCards.add(scholarshipCard);
                 }
