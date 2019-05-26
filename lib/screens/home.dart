@@ -26,12 +26,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final _pageOptions = [
 
-    ScholarshipsScreen(),
-    ChatListScreen(),
-    QuestionsScreen(),
-  ];
+  @override
 
   void initState() {
     super.initState();
@@ -41,6 +37,13 @@ class _HomeScreenState extends State<HomeScreen> {
     getChats();
   }
 
+  final _pageOptions = [
+
+    ScholarshipsScreen(),
+    ChatListScreen(),
+    QuestionsScreen(),
+  ];
+
   void getCurrentUser() async {
     try {
       final user = await _auth.currentUser();
@@ -48,26 +51,32 @@ class _HomeScreenState extends State<HomeScreen> {
         loggedInUser = user;
         print(loggedInUser);
 
-        var documents = await Firestore.instance.collection('userInfo')
-            .where('userEmail', isEqualTo: loggedInUser.email).getDocuments().then((QuerySnapshot docs){
-            userData = docs.documents[0];
-            print(userData['GPA']);
-            print(userData['major']);
-            print(userData['grade']);
+        await for (var snapshot in _fireStore.collection('userInfo').where('userEmail', isEqualTo: loggedInUser.email).snapshots()){
+          for (var Info in snapshot.documents) {
+            print(Info.data);
+              userInfo = UserInfoData(gpa: Info.data['GPA'], major: Info.data['major'], grade: Info.data['grade'], graduationYear: Info.data['icdId']);
+              print(userInfo.gpa);
+          }
+        }
 
-
-            UserInfoData(gpa: userData['GPA'], name: userData['firstName'], email:userData['userEmail'],
-                major: userData['major'], gender: userData['gender'],graduationYear: userData['icuId'],
-                chatIds: userData['chatId'], grade: userData['grade']);
-
-        });
+        
+        //TODO:デッドコードの修正
+//        _fireStore.getDocuments().then((QuerySnapshot docs){
+//
+//              userData = docs.documents[0];
+//              print(userData['GPA']);
+//              print(userData['major']);
+//              print(userData['grade']);
+////              userInfo = UserInfoData(gpa: userData['GPA'], name: userData['firstName'], email:userData['userEmail'],
+////                  major: userData['major'], gender: userData['gender'],graduationYear: userData['icuId'],
+////                  chatIds: userData['chatId'], grade: userData['grade']);
+//        });
       }
     } catch (e) {
       print(e);
       print("error発生");
     }
   }
-
 
   void getChats() async {
     final chat = await _fireStore.collection('chatData').getDocuments();
@@ -141,7 +150,6 @@ class _HomeScreenState extends State<HomeScreen> {
 class ChatListScreen extends StatelessWidget {
 
 
-
   @override
   Widget build(BuildContext context) {
     if (loggedInUser == null) {
@@ -156,6 +164,15 @@ class ChatListScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text('奨学金リスト'),
           backgroundColor: easyFundMainColor,
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.close),
+                onPressed: () {
+                  //Implement logout functionality
+                  _auth.signOut();
+                  Navigator.pop(context);
+                }),
+          ],
         ),
         body: StreamBuilder<QuerySnapshot>(
             stream: _fireStore.collection('chatData').where(
@@ -291,7 +308,6 @@ class _ChatScreenState extends State<ChatScreen> {
 
   void messageStream() async {
     await for (var snapshot in _fireStore.collection('message').snapshots()) {
-      snapshot.documents;
       for (var message in snapshot.documents) {
         print(message.data);
       }
@@ -470,13 +486,18 @@ class ScholarshipsScreen extends StatelessWidget {
 
 
             StreamBuilder<QuerySnapshot>(
-              stream: _fireStore.collection('Scholarships').where('majors',arrayContains: userInfo.major).snapshots(),
+              stream: _fireStore.collection('Scholarships').where('gpa', isLessThanOrEqualTo: userInfo.gpa).snapshots(),
 
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return Center(
-                    child: CircularProgressIndicator(
-                      backgroundColor: Colors.lightBlueAccent,
+                    child: Column(
+                      children: <Widget>[
+                        CircularProgressIndicator(
+                          backgroundColor: Colors.lightBlueAccent,
+                        ),
+                        Text(userInfo.gpa.toString())
+                      ],
                     ),);
                 }
                 final scholarships = snapshot.data.documents;
