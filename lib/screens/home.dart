@@ -4,8 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:easy_fund/components/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_fund/constants.dart';
-import 'package:easy_fund/components/scholarship_card.dart';
 import 'questions_screen.dart';
+import 'scholarships_screen.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:async/async.dart';
 import 'package:easy_fund/data/user_info_data.dart';
 
 FirebaseUser loggedInUser;
@@ -25,7 +27,12 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
+PageController pageController;
+
+
 class _HomeScreenState extends State<HomeScreen> {
+
+  int _page = 0;
 
   @override
 
@@ -36,13 +43,6 @@ class _HomeScreenState extends State<HomeScreen> {
     print("init State home");
     getChats();
   }
-
-  final _pageOptions = [
-
-    ScholarshipsScreen(),
-    ChatListScreen(),
-    QuestionsScreen(),
-  ];
 
   void getCurrentUser() async {
     try {
@@ -57,6 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
               userInfo = UserInfoData(gpa: Info.data['GPA'], major: Info.data['major'], grade: Info.data['grade'], graduationYear: Info.data['icdId']);
               print(userInfo.gpa);
           }
+
         }
 
         
@@ -108,13 +109,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (loggedInUser == null) {
-      return Center(
-        child: CircularProgressIndicator(
-          backgroundColor: Colors.lightBlueAccent,
-        ),
-      );
-    }
+//    if (loggedInUser == null) {
+//      return Center(
+//        child: CircularProgressIndicator(
+//          backgroundColor: Colors.lightBlueAccent,
+//        ),
+//      );
+//    }
 
     return Scaffold(
       backgroundColor: easyFundLightColor,
@@ -123,28 +124,39 @@ class _HomeScreenState extends State<HomeScreen> {
 //        title: Text('奨学金リスト'),
 //        backgroundColor: easyFundMainColor,
 //      ),
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: CupertinoTabBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.school),
             title: Text('奨学金リスト'),
-          ),
+            backgroundColor: Colors.white),
           BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            title: Text('インターン紹介'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            title: Text('設定'),
+              icon: Icon(Icons.school),
+              title: Text('奨学金リスト'),
+              backgroundColor: Colors.white),
+        ],
+        onTap: navigationTapped,
+        currentIndex: _page,
+      ),
+
+      body: PageView(
+        children: <Widget>[
+          Container(
+            child: ScholarshipsScreen(),
           )
         ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        onTap: _onItemTapped,
+
       ),
-      body: _pageOptions[_selectedIndex],
+
+
     );
   }
+}
+
+
+void navigationTapped(int page) {
+  //Animating Page
+  pageController.jumpToPage(page);
 }
 
 class ChatListScreen extends StatelessWidget {
@@ -459,72 +471,4 @@ class MessageBubble extends StatelessWidget {
   }
 }
 
-
-class ScholarshipsScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    if (loggedInUser.email == null) {
-      return Center(
-        child: CircularProgressIndicator(
-          backgroundColor: Colors.lightBlueAccent,
-        ),
-      );
-    }
-    return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: Text(loggedInUser.email),
-          backgroundColor: easyFundMainColor,
-        ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Padding(padding: const EdgeInsets.symmetric(vertical: 20.0),
-                child: Text('応募可能な奨学金が５件見つかりました。',
-                  style: kBoldTextStyle,
-                  textAlign: TextAlign.center,)),
-
-
-            StreamBuilder<QuerySnapshot>(
-              stream: _fireStore.collection('Scholarships').where('gpa', isLessThanOrEqualTo: userInfo.gpa).snapshots(),
-
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return Center(
-                    child: Column(
-                      children: <Widget>[
-                        CircularProgressIndicator(
-                          backgroundColor: Colors.lightBlueAccent,
-                        ),
-                        Text(userInfo.gpa.toString())
-                      ],
-                    ),);
-                }
-                final scholarships = snapshot.data.documents;
-                List<ScholarshipCard> scholarshipsCards = [];
-                for (var scholarship in scholarships ) {
-                  final scholarshipName = scholarship.data['name'];
-                  final scholarshipDeadline = scholarship.data['deadline'];
-                  final scholarshipBudged = scholarship.data['budged'];
-                  final scholarshipCard = ScholarshipCard(
-                    scholarshipName: scholarshipName,
-                    budged: scholarshipBudged,
-                    );
-
-                  scholarshipsCards.add(scholarshipCard);
-                  scholarshipsCount = scholarshipsCards.length;
-                }
-                return Expanded(
-                  child: ListView(
-                    reverse: true,
-                    children: scholarshipsCards,
-                  ),
-                );
-              },
-            ),
-          ],
-        )
-    );
-  }
-}
 
