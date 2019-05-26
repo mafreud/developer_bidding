@@ -86,9 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (user != null) {
                         Navigator.pushNamed(context, HomeScreen.id);
                       }
-                      setState(() {
-                        showSpiner = true;
-                      });
+
                     } catch (e) {
                       print(e);
                     }

@@ -6,10 +6,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:easy_fund/components/colors.dart';
 import 'package:easy_fund/data/user_info_data.dart';
 
-final _auth = FirebaseAuth.instance;
 final _fireStore = Firestore.instance;
 FirebaseUser loggedInUser;
-UserInfoData userInfo;
 
 
 class ScholarshipsScreen extends StatefulWidget {
@@ -17,16 +15,15 @@ class ScholarshipsScreen extends StatefulWidget {
   _ScholarshipsScreenState createState() => _ScholarshipsScreenState();
 }
 
-
 class _ScholarshipsScreenState extends State<ScholarshipsScreen> {
 
+  final _auth = FirebaseAuth.instance;
+  UserInfoData userInfo;
 
   @override
   void initState() {
     super.initState();
     getCurrentUser();
-
-
   }
 
   void getCurrentUser() async {
@@ -35,14 +32,14 @@ class _ScholarshipsScreenState extends State<ScholarshipsScreen> {
       if (user != null) {
         loggedInUser = user;
         print(loggedInUser);
-
         await for (var snapshot in _fireStore.collection('userInfo').where('userEmail', isEqualTo: loggedInUser.email).snapshots()){
           for (var Info in snapshot.documents) {
             print(Info.data);
-            userInfo = UserInfoData(gpa: Info.data['GPA'], major: Info.data['major'], grade: Info.data['grade'], graduationYear: Info.data['icdId']);
-            print(userInfo.gpa);
+            setState(() {
+              userInfo = UserInfoData(gpa: Info.data['GPA'], major: Info.data['major'], grade: Info.data['grade'], graduationYear: Info.data['icdId']);
+              print(userInfo.gpa);
+            });
           }
-
         }
       }
     } catch(e) {
@@ -51,6 +48,7 @@ class _ScholarshipsScreenState extends State<ScholarshipsScreen> {
   }
 
   Widget build(BuildContext context) {
+    try{
     if (loggedInUser.email == null) {
       return Center(
         child: CircularProgressIndicator(
@@ -58,26 +56,44 @@ class _ScholarshipsScreenState extends State<ScholarshipsScreen> {
         ),
       );
     }
+    } catch (e){
+      return Center(
+        child: CircularProgressIndicator(
+          backgroundColor: Colors.lightBlueAccent,
+        ),
+      );
+    }
+
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
           title: Text(loggedInUser.email),
           backgroundColor: easyFundMainColor,
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.close),
+                onPressed: () {
+                  //Implement logout functionality
+                  _auth.signOut();
+                  Navigator.pop(context);
+                }),
+          ],
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Padding(padding: const EdgeInsets.symmetric(vertical: 20.0),
-                child: Text('応募可能な奨学金が５件見つかりました。',
+                child: Text('応募可能な奨学金が件見つかりました。',
                   style: kBoldTextStyle,
                   textAlign: TextAlign.center,)),
 
 
             StreamBuilder<QuerySnapshot>(
-              stream: _fireStore.collection('Scholarships').where('gpa', isGreaterThanOrEqualTo: userInfo.gpa).snapshots(),
+              stream: userInfo == null ? _fireStore.collection('Scholarships').snapshots() :_fireStore.collection('Scholarships').where('gpa', isLessThanOrEqualTo: userInfo.gpa).snapshots(),
+
 
               builder: (context, snapshot) {
-                if (!snapshot.hasData) {
+                if (!snapshot.hasData || loggedInUser == null) {
                   return Center(
                     child: Column(
                       children: <Widget>[
@@ -100,11 +116,13 @@ class _ScholarshipsScreenState extends State<ScholarshipsScreen> {
                   );
 
                   scholarshipsCards.add(scholarshipCard);
-//                  scholarshipsCount = scholarshipsCards.length;
+//                  setState(() {
+//                    scholarshipsCount = scholarshipsCards.length;
+//                  });
                 }
                 return Expanded(
                   child: ListView(
-                    reverse: true,
+                    reverse: false,
                     children: scholarshipsCards,
                   ),
                 );
