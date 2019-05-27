@@ -32,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int _page = 0;
   final _auth = FirebaseAuth.instance;
   final _fireStore = Firestore.instance;
-  UserInfoData userInfo;
+//  UserInfoData userInfo;
 
 
 
@@ -43,7 +43,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
     getCurrentUser();
     print("init State home");
-    getChats();
   }
 
   void getCurrentUser() async {
@@ -53,16 +52,6 @@ class _HomeScreenState extends State<HomeScreen> {
         loggedInUser = user;
         print(loggedInUser);
 
-        await for (var snapshot in _fireStore.collection('userInfo').where('userEmail', isEqualTo: loggedInUser.email).snapshots()){
-          for (var Info in snapshot.documents) {
-            print(Info.data);
-
-              setState(() {
-                userInfo = UserInfoData(gpa: Info.data['GPA'], major: Info.data['major'], grade: Info.data['grade'], graduationYear: Info.data['icdId']);
-                print(userInfo.gpa);
-              });
-          }
-        }
 
         
         //TODO:デッドコードの修正
@@ -79,55 +68,36 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     } catch (e) {
       print(e);
-      print("error発生");
+      print("ユーザーの情報を取る際にerror発生");
     }
   }
 
-  void getChats() async {
-    final chat = await _fireStore.collection('chatData').getDocuments();
-  }
+//  void getChats() async {
+//    final chat = await _fireStore.collection('chatData').getDocuments();
+//  }
 
-  int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: 奨学金リスト',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1: インターン紹介',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: 設定',
-      style: optionStyle,
-    ),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
+//  int _selectedIndex = 0;
+//  static const TextStyle optionStyle =
+//  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+//
 
   @override
   Widget build(BuildContext context) {
-//    if (loggedInUser == null) {
-//      return Center(
-//        child: CircularProgressIndicator(
-//          backgroundColor: Colors.lightBlueAccent,
-//        ),
-//      );
-//    }
+    if (loggedInUser == null) {
+      return Center(
+        child: CircularProgressIndicator(
+          backgroundColor: Colors.lightBlueAccent,
+        ),
+      );
+    }
 
     return Scaffold(
       backgroundColor: easyFundLightColor,
-//      appBar: AppBar(
-//        leading: null,
-//        title: Text('奨学金リスト'),
-//        backgroundColor: easyFundMainColor,
-//      ),
+      appBar: AppBar(
+        leading: null,
+        title: Text('奨学金リスト'),
+        backgroundColor: easyFundMainColor,
+      ),
       bottomNavigationBar: CupertinoTabBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -147,17 +117,19 @@ class _HomeScreenState extends State<HomeScreen> {
         children: <Widget>[
           Container(
             child: ScholarshipsScreen(),
-          )
+          ),
         ],
 
       ),
 
+    //新しいbodyを作るため、コメントアウトされているbodyとコンフリクトしないようにする
+//      body:Text(loggedInUser.email),
 
     );
   }
 }
 
-
+//
 void navigationTapped(int page) {
   //Animating Page
   pageController.jumpToPage(page);
