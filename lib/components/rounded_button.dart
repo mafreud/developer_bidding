@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 
 class RoundedButton extends StatelessWidget {
-
-  RoundedButton({@required this.buttonText, @required this.buttonColor, @required this.buttonPressed});
+  RoundedButton(
+      {@required this.buttonText,
+        @required this.buttonColor,
+        @required this.buttonPressed,
+        this.buttonTextColors});
 
   final Color buttonColor;
   final Function buttonPressed;
   final String buttonText;
+  final Color buttonTextColors;
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +26,7 @@ class RoundedButton extends StatelessWidget {
           height: 42.0,
           child: Text(
             buttonText,
-            style: TextStyle(
-              color: Colors.white
-            ),
+            style: TextStyle(color: buttonTextColors),
           ),
         ),
       ),

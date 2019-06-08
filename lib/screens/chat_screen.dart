@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:easy_fund/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 final _fireStore = Firestore.instance;
 FirebaseUser loggedInUser;
@@ -20,13 +19,7 @@ class _ChatScreenState extends State<ChatScreen> {
   String messageText;
   final _auth = FirebaseAuth.instance;
 
-
   @override
-  void initState() {
-    super.initState();
-
-    getCurrentUser();
-  }
 
   void getCurrentUser() async {
     try {
@@ -38,6 +31,12 @@ class _ChatScreenState extends State<ChatScreen> {
       print(e);
     }
   }
+  void initState() {
+    super.initState();
+
+    getCurrentUser();
+  }
+
 
 //  void getMessages() async{
 //    final messages = await  _fireStore.collection('message').getDocuments();
@@ -91,12 +90,12 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                   ),
                   FlatButton(
-                      onPressed: () {
-                        messageTextController.clear();
-                    //Implement send functionality.
-                    _fireStore.collection('message').add(
-                        {'text': messageText, 'sender': loggedInUser.email});
-                      },
+                    onPressed: () {
+                      messageTextController.clear();
+                      //Implement send functionality.
+                      _fireStore.collection('message').add(
+                          {'text': messageText, 'sender': loggedInUser.email});
+                    },
                     child: Text(
                       'Send',
                       style: kSendButtonTextStyle,
@@ -114,7 +113,6 @@ class _ChatScreenState extends State<ChatScreen> {
 }
 
 class MessageStream extends StatelessWidget {
-
 
   @override
   Widget build(BuildContext context) {
@@ -162,7 +160,6 @@ class MessageBubble extends StatelessWidget {
   bool isMe;
   Color bubbleColor;
 
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -179,11 +176,11 @@ class MessageBubble extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.all(10.0),
               child: Text(
-                  '$text',
-                  style: TextStyle(
+                '$text',
+                style: TextStyle(
                     color: Colors.white,
                     fontSize: 15.0
-                  ),),
+                ),),
             ),
           ),
         ],

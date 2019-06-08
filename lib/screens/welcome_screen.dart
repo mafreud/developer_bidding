@@ -3,37 +3,37 @@ import 'login_screen.dart';
 import 'registration_screen.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:easy_fund/components/rounded_button.dart';
+import 'package:easy_fund/components/colors.dart';
 
 class WelcomeScreen extends StatefulWidget {
-
   static String id = 'welcome_screen';
   @override
   _WelcomeScreenState createState() => _WelcomeScreenState();
 }
 
-class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProviderStateMixin{
-
+class _WelcomeScreenState extends State<WelcomeScreen>
+    with SingleTickerProviderStateMixin {
   AnimationController controller;
   Animation animation;
 
   @override
-
-  void initState(){
+  void initState() {
     super.initState();
-    controller = AnimationController(
-        vsync:this,
-        duration: Duration(seconds: 1));
+    controller =
+        AnimationController(vsync: this, duration: Duration(seconds: 1));
     animation = CurvedAnimation(parent: controller, curve: Curves.bounceOut);
     controller.forward();
-    controller.addListener((){
-      setState(() {
-
-      });
+    controller.addListener(() {
+      setState(() {});
     });
   }
 
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: easyFundMainColor,
+        title: Text('Welcome'),
+      ),
       backgroundColor: Colors.white,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.0),
@@ -41,13 +41,33 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Row(
+            Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  'Easy Fund',
+                  'EasyFund',
                   style: TextStyle(
                     fontSize: 45.0,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                Text(
+                  '給付型奨学金一括応募',
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+                SizedBox(
+                  height: 5.0,
+                ),
+                Text(
+                  '学生インターン',
+                  style: TextStyle(
+                    fontSize: 20.0,
                     fontWeight: FontWeight.w900,
                   ),
                 ),
@@ -57,16 +77,20 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
               height: 48.0,
             ),
             RoundedButton(
-              buttonColor: Colors.lightBlueAccent,
-              buttonPressed: (){
+              buttonColor: easyFundLightColor,
+              buttonPressed: () {
                 Navigator.pushNamed(context, LoginScreen.id);
               },
-              buttonText: 'Log in ',),
+              buttonText: 'ログイン',
+              buttonTextColors: easyFundMainColor,
+            ),
             RoundedButton(
-              buttonColor: Colors.blueAccent,
-              buttonPressed: (){Navigator.pushNamed(context, RegistrationScreen.id);},
-              buttonText: 'Register',
-
+              buttonColor: easyFundMainColor,
+              buttonPressed: () {
+                Navigator.pushNamed(context, RegistrationScreen.id);
+              },
+              buttonText: '新規登録',
+              buttonTextColors: Colors.white,
             ),
           ],
         ),
@@ -74,4 +98,3 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
     );
   }
 }
-
